@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,24 +12,35 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bizu.R;
 import com.bizu.controller.AbstractViewHolder;
 import com.bizu.question.option.controller.OnQuestionOptionClickFragment;
-import com.bizu.R;
+import com.bizu.util.resources.DrawablesUtil;
 import com.bizu.util.view.DimensionUtilities;
+
+import codetail.graphics.drawables.DrawableHotspotTouch;
+import codetail.graphics.drawables.LollipopDrawable;
+import codetail.graphics.drawables.LollipopDrawablesCompat;
+import codetail.graphics.drawables.RippleDrawable;
 
 /**
  * Created by andre.lmello on 10/27/15.
  */
 public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android15LessQuestionsAdapter.ViewHolder> {
 
+    static {
+        LollipopDrawablesCompat.registerDrawable(RippleDrawable.class, "ripple");
+    }
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends AbstractViewHolder<View> {
+    public static class ViewHolder extends AbstractViewHolder<RelativeLayout> {
 
-        public ViewHolder(final View itemView) {
+        public ViewHolder(final RelativeLayout itemView) {
             super(itemView);
         }
 
@@ -44,10 +56,12 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public Android15LessQuestionsAdapter(final String[] myDataset, final RecyclerView recyclerView,
-                                         final OnQuestionOptionClickFragment listener) {
+                                         final OnQuestionOptionClickFragment listener,
+                                         final Resources resources, final Resources.Theme theme) {
         mDataset = myDataset;
-        mRecyclerView = recyclerView;
         mFTListener = listener;
+        mResources = resources;
+        mTheme = theme;
     }
 
     // Create new views (invoked by the layout manager)
@@ -55,7 +69,7 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         // create a new view
-        final View view = LayoutInflater.from(parent.getContext())
+        final RelativeLayout view = (RelativeLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.line_view_group, parent, false);
 
         // set the view's size, margins, paddings and layout parameters
@@ -104,8 +118,9 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
 
     private String[] mDataset;
     private boolean isAnimating = false;
-    private final RecyclerView mRecyclerView;
     private final OnQuestionOptionClickFragment mFTListener;
+    private final Resources mResources;
+    private final Resources.Theme mTheme;
 
     private class MyOnGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
 
@@ -118,7 +133,11 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
         @Override
         public void onGlobalLayout() {
             holder.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
+            final RelativeLayout questionLine = holder.getView();
+            questionLine.setBackgroundDrawable(DrawablesUtil
+                    .getDrawable(R.drawable.question_option_ripple, mResources, mTheme));
+            questionLine.setOnTouchListener(new DrawableHotspotTouch((LollipopDrawable)
+            questionLine.getBackground()));
             final int viewHeightPx = holder.getLineText().getLineCount()
                     * holder.getLineText().getLineHeight();
             final float viewHeightDp = DimensionUtilities.pixelToDensityPixel(viewHeightPx,

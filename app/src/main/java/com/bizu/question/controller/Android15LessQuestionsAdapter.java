@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,25 +16,15 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bizu.R;
 import com.bizu.controller.AbstractViewHolder;
 import com.bizu.question.option.controller.OnQuestionOptionClickFragment;
-import com.bizu.util.resources.DrawablesUtil;
 import com.bizu.util.view.DimensionUtilities;
-
-import codetail.graphics.drawables.DrawableHotspotTouch;
-import codetail.graphics.drawables.LollipopDrawable;
-import codetail.graphics.drawables.LollipopDrawablesCompat;
-import codetail.graphics.drawables.RippleDrawable;
-
 /**
  * Created by andre.lmello on 10/27/15.
  */
 public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android15LessQuestionsAdapter.ViewHolder> {
-
-    static {
-        LollipopDrawablesCompat.registerDrawable(RippleDrawable.class, "ripple");
-    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -134,10 +125,9 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
         public void onGlobalLayout() {
             holder.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             final RelativeLayout questionLine = holder.getView();
-            questionLine.setBackgroundDrawable(DrawablesUtil
-                    .getDrawable(R.drawable.question_option_ripple, mResources, mTheme));
-            questionLine.setOnTouchListener(new DrawableHotspotTouch((LollipopDrawable)
-            questionLine.getBackground()));
+            MaterialRippleLayout.on(questionLine)
+                    .rippleColor(Color.BLACK)
+                    .create();
             final int viewHeightPx = holder.getLineText().getLineCount()
                     * holder.getLineText().getLineHeight();
             final float viewHeightDp = DimensionUtilities.pixelToDensityPixel(viewHeightPx,

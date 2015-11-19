@@ -10,15 +10,20 @@ import com.bizu.R;
 /**
  * Created by andre.lmello on 11/1/15.
  */
-public abstract class AbstractFragmentTransationOnClickListener implements View.OnClickListener {
-    public AbstractFragmentTransationOnClickListener(final FragmentManager fragmentManager) {
+public abstract class AbstractDoFragmentTransactionOnClickListener implements View.OnClickListener {
+    public AbstractDoFragmentTransactionOnClickListener(final FragmentManager fragmentManager) {
         mFragmentManager = fragmentManager;
     }
     @Override
     public void onClick(View v) {
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
+                android.R.animator.fade_in, android.R.animator.fade_out);
         transaction.replace(R.id.fl_fullscreen, getReplacementFragment());
-        transaction.commit();
+        transaction.addToBackStack(null);
+        if (transaction.commit() < 0) {
+            throw new IllegalStateException();
+        }
     }
 
     public abstract Fragment getReplacementFragment();

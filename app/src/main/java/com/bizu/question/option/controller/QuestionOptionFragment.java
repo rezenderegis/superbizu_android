@@ -1,5 +1,6 @@
 package com.bizu.question.option.controller;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ public class QuestionOptionFragment extends Fragment {
     public QuestionOptionFragment() {
 
     }
+    @SuppressLint("ValidFragment")
     public QuestionOptionFragment(final CharSequence optionText) {
         final Bundle args = new Bundle();
         args.putCharSequence(QUESTION_OPTION_TEXT, optionText);

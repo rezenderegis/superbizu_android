@@ -4,13 +4,14 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 
-import com.bizu.controller.AbstractFragmentTransationOnClickListener;
+import com.bizu.controller.AbstractDoFragmentTransactionOnClickListener;
 
 /**
  * Created by andre.lmello on 11/1/15.
  */
-public class OnQuestionOptionClickFragment extends AbstractFragmentTransationOnClickListener {
-    public OnQuestionOptionClickFragment(final FragmentManager fragmentManager) {
+public class OnQuestionOptionClickedListener
+        extends AbstractDoFragmentTransactionOnClickListener {
+    public OnQuestionOptionClickedListener(final FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 

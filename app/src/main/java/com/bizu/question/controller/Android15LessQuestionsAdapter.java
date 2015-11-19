@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,9 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.bizu.R;
 import com.bizu.controller.AbstractViewHolder;
-import com.bizu.question.option.controller.OnQuestionOptionClickFragment;
+import com.bizu.question.option.controller.OnQuestionOptionClickedListener;
 import com.bizu.util.view.DimensionUtilities;
 /**
  * Created by andre.lmello on 10/27/15.
@@ -47,7 +45,7 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public Android15LessQuestionsAdapter(final String[] myDataset, final RecyclerView recyclerView,
-                                         final OnQuestionOptionClickFragment listener,
+                                         final OnQuestionOptionClickedListener listener,
                                          final Resources resources, final Resources.Theme theme) {
         mDataset = myDataset;
         mFTListener = listener;
@@ -109,7 +107,7 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
 
     private String[] mDataset;
     private boolean isAnimating = false;
-    private final OnQuestionOptionClickFragment mFTListener;
+    private final OnQuestionOptionClickedListener mFTListener;
     private final Resources mResources;
     private final Resources.Theme mTheme;
 
@@ -124,10 +122,6 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
         @Override
         public void onGlobalLayout() {
             holder.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            final RelativeLayout questionLine = holder.getView();
-            MaterialRippleLayout.on(questionLine)
-                    .rippleColor(Color.BLACK)
-                    .create();
             final int viewHeightPx = holder.getLineText().getLineCount()
                     * holder.getLineText().getLineHeight();
             final float viewHeightDp = DimensionUtilities.pixelToDensityPixel(viewHeightPx,

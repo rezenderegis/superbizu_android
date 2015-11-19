@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bizu.R;
-import com.bizu.question.option.controller.OnQuestionOptionClickFragment;
+import com.bizu.question.option.controller.OnQuestionOptionClickedListener;
 
 /**
  * Created by andre.lmello on 11/1/15.
@@ -40,7 +40,7 @@ public class QuestionFragment extends Fragment {
         final String[] stringArray =  getResources().getStringArray(R.array.test_array);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             adapter = new Android15LessQuestionsAdapter(stringArray, recyclerView,
-                    new OnQuestionOptionClickFragment(getFragmentManager()),
+                    new OnQuestionOptionClickedListener(getFragmentManager()),
                     getActivity().getResources(), getActivity().getTheme());
         } else {
             adapter = new Android15PlusQuestionsAdapter(stringArray);

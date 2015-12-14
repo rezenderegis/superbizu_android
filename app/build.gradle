@@ -36,6 +36,7 @@ dependencies {
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.easymock:easymock:3.4'
     androidTestCompile "com.google.dexmaker:dexmaker:1.1"
+    compile 'com.google.code.gson:gson:2.2.+'
     compile project(':volley')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.1.0'

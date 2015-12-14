@@ -2,7 +2,7 @@ package com.bizu.question.service;
 
 import android.support.annotation.NonNull;
 
-import com.bizu.network.ScheduledRequest;
+import com.bizu.network.UpdateListener;
 import com.bizu.question.Question;
 
 /**
@@ -14,6 +14,6 @@ public interface QuestionService {
      * @param questionToUpdate
      * @throws NullPointerException
      */
-    <T extends ScheduledRequest> T update(@NonNull final Question questionToUpdate)
+    <T> T update(@NonNull final Question questionToUpdate, final UpdateListener listener)
             throws NullPointerException;
 }

@@ -11,8 +11,19 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Question {
 
-    @SerializedName("id")
+    @SerializedName("ID_QUESTAO")
     private Long mId;
+
+    @SerializedName("DESCRICAO_QUESTAO")
+    private String mName;
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        this.mName = name;
+    }
 
     public Question() {
     }

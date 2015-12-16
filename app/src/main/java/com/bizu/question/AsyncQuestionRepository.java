@@ -46,7 +46,6 @@ public class AsyncQuestionRepository extends SQLiteOpenHelper implements Questio
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         String ddlQuestao = "CREATE TABLE IF NOT EXISTS TB_QUESTAO (" +
                 "  ID_QUESTAO INT NOT NULL," +
                 "  ANO_QUESTAO INT NULL," +

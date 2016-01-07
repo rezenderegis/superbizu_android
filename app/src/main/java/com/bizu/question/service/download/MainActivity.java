@@ -25,16 +25,15 @@ public class MainActivity extends Activity {
 
     private Button questoes;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.pagina_inicial);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.pagina_inicial);
 
 
+        questoes = (Button) findViewById(R.id.questoes);
 
-         questoes = (Button) findViewById(R.id.questoes);
-
-        questoes.setOnClickListener(new View.OnClickListener(){
+        questoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -45,10 +44,7 @@ public class MainActivity extends Activity {
         });
 
 
-
-
-
-	}
+    }
 
 
 }

@@ -29,7 +29,7 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String url="http://mysale2.hospedagemdesites.ws/mysale/app/teste.php";
+        String url="http://mysql01.bizu.hospedagemdesites.ws/bizu/app/teste.php";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -49,11 +49,11 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
         List<Question> questoes = new ArrayList<Question>();
 
         try {
-            JSONArray questoesDoServidor = response.getJSONArray("produtos");
+            JSONArray questoesDoServidor = response.getJSONArray("questoes");
 
             for (int i=0; i<questoesDoServidor.length(); i++) {
                 JSONObject item = questoesDoServidor.getJSONObject(i);
-                String name = item.getString("nomeproduto");
+                String name = item.getString("descricao_questao");
 
                 Question questao = new Question();
                 questao.setName(name);

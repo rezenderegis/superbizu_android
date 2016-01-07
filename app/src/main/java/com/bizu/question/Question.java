@@ -1,8 +1,14 @@
 package com.bizu.question;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.bizu.network.UpdateListener;
+import com.bizu.question.item.QuestionItem;
 import com.bizu.question.service.QuestionService;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Domain Class to represent a question. Contains all information to show a question and to make the
@@ -15,21 +21,25 @@ public class Question {
     private Long mId;
 
     @SerializedName("DESCRICAO_QUESTAO")
-    private String mName;
+    private final String mName;
 
-    public String getName() {
-        return mName;
-    }
+    private final List<QuestionItem> mItems;
 
-    public void setName(String name) {
-        this.mName = name;
-    }
-
-    public Question() {
-    }
-
-    public Question(final Long id) {
+    /**
+     *
+     * @param id
+     * @param name
+     * @param items
+     */
+    public Question(@Nullable final Long id, @NonNull final String name
+            , @NonNull final List<QuestionItem> items) {
         mId = id;
+        mName = name;
+        mItems = items;
+    }
+
+    public Question(final String name, final List<QuestionItem> items) {
+        this(null, name, items);
     }
 
     /**
@@ -62,4 +72,9 @@ public class Question {
     public void setId(final Long id) {
         this.mId = id;
     }
+
+    public String getName() {
+        return mName;
+    }
+
 }

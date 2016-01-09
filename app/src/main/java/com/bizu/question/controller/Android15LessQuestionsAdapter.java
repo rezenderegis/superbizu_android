@@ -122,6 +122,12 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
         @Override
         public void onGlobalLayout() {
             holder.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            View questionLine =
+            MaterialRippleLayout.on(holder.getView())
+                    .rippleOverlay(true)
+                    .rippleAlpha(0.2f)
+                    .rippleColor(Color.BLACK)
+                    .create();
             final int viewHeightPx = holder.getLineText().getLineCount()
                     * holder.getLineText().getLineHeight();
             final float viewHeightDp = DimensionUtilities.pixelToDensityPixel(viewHeightPx,
@@ -202,8 +208,8 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
             }
 
             if (listener != null) {
-                ibExpandButton.setOnClickListener(listener);
-                holder.getView().setOnClickListener(listener);
+//                ibExpandButton.setOnClickListener(listener);
+                questionLine.setOnClickListener(listener);
             }
 
         }

@@ -29,22 +29,22 @@ public class QuestionFragment extends Fragment {
 
         // use a linear layout manager
         final LinearLayoutManager layoutManager;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            layoutManager = new LinearLayoutManager(getContext());
-        } else {
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//            layoutManager = new LinearLayoutManager(getContext());
+//        } else {
             layoutManager = new LinearLayoutManager(getActivity());
-        }
+//        }
         recyclerView.setLayoutManager(layoutManager);
 
-        final RecyclerView.Adapter adapter;
+        RecyclerView.Adapter adapter = null;
         final String[] stringArray =  getResources().getStringArray(R.array.test_array);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             adapter = new Android15LessQuestionsAdapter(stringArray, recyclerView,
                     new OnQuestionOptionClickedListener(getFragmentManager()),
                     getActivity().getResources(), getActivity().getTheme());
-        } else {
+        }/* else {
             adapter = new Android15PlusQuestionsAdapter(stringArray);
-        }
+        }*/
         recyclerView.setAdapter(adapter);
 
         return recyclerView;

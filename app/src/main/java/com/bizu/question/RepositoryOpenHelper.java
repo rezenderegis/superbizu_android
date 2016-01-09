@@ -1,10 +1,13 @@
 package com.bizu.question;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.provider.BaseColumns;
+
+import java.util.List;
 
 /**
  * Created by andre.lmello on 12/9/15.
@@ -27,7 +30,11 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         .append(QuestionContract.COMANDO_QUESTAO).append(" VARCHAR(1000) NULL").append(COMMA_SEP)
         .append(QuestionContract.PROVA).append(" INT NULL").append(COMMA_SEP)
         .append(QuestionContract.SITUACAO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
-        .append(QuestionContract.IMAGEM_QUESTAO).append(" VARCHAR(100) NULL)").toString();
+        .append(QuestionContract.IMAGEM_QUESTAO).append(" VARCHAR(100) NULL").append(COMMA_SEP)
+            .append(QuestionContract.COMENTARIO_QUESTAO).append(" VARCHAR(3000) NULL").append(COMMA_SEP)
+            .append(QuestionContract.LETRA_ITEM_CORRETO).append(" VARCHAR(1) NULL").append(COMMA_SEP)
+            .append(QuestionContract.DIA_PROVA).append(" INT(1) NULL").append(COMMA_SEP)
+            .append(QuestionContract.APLICACAO).append(" INT(1) NULL)").toString();
 
     private static final String DDL_ITEM = DDL_CREATER.delete(0, DDL_CREATER.length())
         .append(CREATE_TABLE_IF_NOT_EXISTS).append(ItemContract.TABLE_NAME)
@@ -124,6 +131,10 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         public static final String PROVA = "PROVA";
         public static final String SITUACAO_QUESTAO = "SITUACAO_QUESTAO";
         public static final String IMAGEM_QUESTAO = "IMAGEM_QUESTAO";
+        public static final String COMENTARIO_QUESTAO = "COMENTARIO_QUESTAO";
+        public static final String LETRA_ITEM_CORRETO = "LETRA_ITEM_CORRETO";
+        public static final String DIA_PROVA = "DIA_PROVA";
+        public static final String APLICACAO = "APLICACAO";
     }
 
     public static abstract class ItemContract implements BaseColumns {
@@ -207,6 +218,39 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
+
+
+
+    public void saveQuestion(List<Question> questions) {
+
+        ContentValues contentValues = new ContentValues();
+
+        try {
+
+            for (Question question : questions) {
+
+                contentValues.put(QuestionContract._ID, question.getId());
+                contentValues.put(QuestionContract.DESCRICAO_QUESTAO, question.getDescricao_questao());
+                contentValues.put(QuestionContract.ANO_QUESTAO, question.getAno_questao());
+                contentValues.put(QuestionContract.NUMERO_QUESTAO, question.getNumero_questao());
+                contentValues.put(QuestionContract.COMANDO_QUESTAO, question.getComando_questao());
+                contentValues.put(QuestionContract.PROVA, question.getProva());
+                contentValues.put(QuestionContract.SITUACAO_QUESTAO, question.getSituacao_questao());
+                contentValues.put(QuestionContract.IMAGEM_QUESTAO, question.getImagem_questao());
+                contentValues.put(QuestionContract.COMENTARIO_QUESTAO, question.getComentario_questao());
+                contentValues.put(QuestionContract.DIA_PROVA, question.getDia_prova());
+                contentValues.put(QuestionContract.APLICACAO, question.getAplicacao());
+                getWritableDatabase().insert(QuestionContract.TABLE_NAME, null, contentValues);
+
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
 
 class AsyncSave extends AsyncTask<Question, Integer, Question> {

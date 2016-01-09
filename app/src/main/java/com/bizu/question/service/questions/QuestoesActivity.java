@@ -9,10 +9,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.bizu.network.GsonRequest;
-import com.bizu.question.AsyncQuestionRepository;
 import com.bizu.question.Question;
-import com.google.gson.Gson;
+import com.bizu.question.RepositoryOpenHelper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,7 +46,7 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
     @Override
     public void onResponse(JSONObject response) {
         List<Question> questoes = new ArrayList<Question>();
-        AsyncQuestionRepository repository = new AsyncQuestionRepository(this);
+        RepositoryOpenHelper repository = new RepositoryOpenHelper(this);
 
         try {
             JSONArray questoesDoServidor = response.getJSONArray("questoes");

@@ -39,12 +39,7 @@ public class MainActivity extends Activity {
 
                 Intent irParaQuestoes = new Intent(MainActivity.this, QuestoesActivity.class);
                 startActivity(irParaQuestoes);
-
             }
         });
-
-
     }
-
-
 }

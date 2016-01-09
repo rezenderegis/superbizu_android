@@ -17,13 +17,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bizu.R;
+import com.bizu.question.controller.FullscreenActivity;
 import com.bizu.question.service.questions.QuestoesActivity;
 
 
 public class MainActivity extends Activity {
 
     private Button questoes;
-
+    private Button telaQuestoes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class MainActivity extends Activity {
 
 
         questoes = (Button) findViewById(R.id.questoes);
+        telaQuestoes = (Button) findViewById(R.id.tela_questoes);
 
         questoes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,5 +42,14 @@ public class MainActivity extends Activity {
                 startActivity(irParaQuestoes);
             }
         });
+
+        telaQuestoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent irParaTelaQuestoes = new Intent(MainActivity.this, FullscreenActivity.class);
+                startActivity(irParaTelaQuestoes);
+            }
+        });
+        
     }
 }

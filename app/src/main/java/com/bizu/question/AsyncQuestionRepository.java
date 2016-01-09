@@ -157,11 +157,6 @@ public class AsyncQuestionRepository extends SQLiteOpenHelper implements Questio
         db.execSQL(ddlMateria);
         db.execSQL(ddlAssuntoMateria);
 
-
-
-
-
-
     }
 
     @Override
@@ -211,13 +206,34 @@ public class AsyncQuestionRepository extends SQLiteOpenHelper implements Questio
                 contentValues.put(COMENTARIO_QUESTAO, question.getComentario_questao());
                 contentValues.put(DIA_PROVA, question.getDia_prova());
                 contentValues.put(APLICACAO, question.getAplicacao());
-                getWritableDatabase().insert(TB_QUESTAO, null, contentValues);
+
+                if (verifyQuestionExist(question.getId()) == false) {
+                    getWritableDatabase().insert(TB_QUESTAO, null, contentValues);
+                } else {
+                    String [] questionUpdate = {question.getId().toString()};
+                    getWritableDatabase().update(TB_QUESTAO, contentValues, ID_QUESTAO, questionUpdate );
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean verifyQuestionExist(Long ID_QUESTAO_BUSCAR) {
+
+        String sql = "SELECT "+ID_QUESTAO+" FROM "+TB_QUESTAO +" WHERE "+ID_QUESTAO +" = "+ID_QUESTAO_BUSCAR;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(sql, null);
+
+        if (c.moveToLast()) {
+            return true;
+        } else {
+
+            return false;
+        }
     }
 
 

@@ -2,15 +2,17 @@ package com.bizu.question.test;
 
 import android.os.AsyncTask;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 import com.bizu.network.UpdateListener;
-import com.bizu.question.AsyncQuestionRepository;
+import com.bizu.question.RepositoryOpenHelper;
 import com.bizu.question.Question;
+import com.bizu.question.item.QuestionItem;
 import com.bizu.question.SaveListener;
 import com.bizu.question.service.PHPQuestionService;
+
+import java.util.ArrayList;
 
 /**
  * Created by andre.lmello on 12/9/15.
@@ -20,7 +22,7 @@ public class QuestionAsyncTest extends AndroidTestCase {
         mUpdateQuestion = null;
         isListenerCalled = false;
         long starTime = System.currentTimeMillis();
-        final Question question = new Question(1L);
+        final Question question = new Question(1L, "name", new ArrayList<QuestionItem>());
         final Request<Question> request = question.update(new UpdateListener<Question>() {
             @Override
             public void onResponse(Question response, Throwable error) {
@@ -41,7 +43,7 @@ public class QuestionAsyncTest extends AndroidTestCase {
 
     public void testAsyncSave() throws InterruptedException {
         isListenerCalled = false;
-        final Question question = new Question();
+        final Question question = new Question("name", new ArrayList<QuestionItem>());
         final AsyncTask asyncTask = question.save(new SaveListener() {
             @Override
             public void onSaveFinish(Question savedQuestion) {
@@ -49,7 +51,7 @@ public class QuestionAsyncTest extends AndroidTestCase {
                 assertNotNull(savedQuestion);
                 assertTrue(savedQuestion.getId().equals(1L));
             }
-        }, new AsyncQuestionRepository(getContext()));
+        }, new RepositoryOpenHelper(getContext()));
 
         while(asyncTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
             Thread.sleep(1000);

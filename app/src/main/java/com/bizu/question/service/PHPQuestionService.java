@@ -18,6 +18,10 @@ public class PHPQuestionService implements QuestionService {
 
     private Request<Question> mVolleyRequest;
 
+    public String ENDERECO = "http://mysale2.hospedagemdesites.ws/mysale/app/teste.php";
+   // public String ENDERECO = "http://10.0.3.2/mysale/app/teste.php";
+
+   // public String ENDERECO = "http://10.0.3.2/mysale/app/teste.php";
     /**
      *
      * @param requestQueue to schedule tasks.
@@ -32,7 +36,7 @@ public class PHPQuestionService implements QuestionService {
         if (questionToUpdate == null)
             throw new IllegalArgumentException("questionToUpdate cannot be null, neither queueStrategy");
         final Listener volleyListener = new Listener(listener);
-        mVolleyRequest = new GsonRequest<>("http://192.168.56.1:1080/rest", Question.class
+        mVolleyRequest = new GsonRequest<>(ENDERECO, Question.class
                 , null, volleyListener, volleyListener);
         mVolleyRequest = mRequestQueue.add(mVolleyRequest);
         return mVolleyRequest;

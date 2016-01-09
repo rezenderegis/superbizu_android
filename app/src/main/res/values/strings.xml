@@ -10,4 +10,8 @@
         <item>Item com menos texto.</item>
         <item>Item com mais ou menos texto. Eu acho que aqui não vai mostra o texto também, mas não queria que ficasse tão grande quanto o outro texto.</item>
     </string-array>
+
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

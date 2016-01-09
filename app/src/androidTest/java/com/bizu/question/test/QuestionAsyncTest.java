@@ -6,7 +6,7 @@ import android.test.AndroidTestCase;
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 import com.bizu.network.UpdateListener;
-import com.bizu.question.AsyncQuestionRepository;
+import com.bizu.question.RepositoryOpenHelper;
 import com.bizu.question.Question;
 import com.bizu.question.item.QuestionItem;
 import com.bizu.question.SaveListener;
@@ -51,7 +51,7 @@ public class QuestionAsyncTest extends AndroidTestCase {
                 assertNotNull(savedQuestion);
                 assertTrue(savedQuestion.getId().equals(1L));
             }
-        }, new AsyncQuestionRepository(getContext()));
+        }, new RepositoryOpenHelper(getContext()));
 
         while(asyncTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
             Thread.sleep(1000);

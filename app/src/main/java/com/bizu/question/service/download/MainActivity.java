@@ -16,7 +16,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bizu.question.service.download.CarroActivity;
 import com.bizu.R;
 import com.bizu.question.service.questions.QuestoesActivity;
 

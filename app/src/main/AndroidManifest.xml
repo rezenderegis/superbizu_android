@@ -23,7 +23,8 @@
 
         <activity android:name=".question.service.questions.QuestoesActivity"
             android:launchMode="singleTop"></activity>
-
+        <activity android:name=".question.controller.ShowAllQuestions"
+            android:launchMode="singleTop"></activity>
         <activity android:name=".question.controller.FullscreenActivity"
             android:theme="@style/Theme.AppCompat"
             android:launchMode="singleTop"></activity>

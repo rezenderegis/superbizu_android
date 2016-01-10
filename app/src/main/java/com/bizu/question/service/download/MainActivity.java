@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bizu.R;
 import com.bizu.question.controller.FullscreenActivity;
+import com.bizu.question.controller.ShowAllQuestions;
 import com.bizu.question.service.questions.QuestoesActivity;
 
 
@@ -45,7 +46,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent irParaQuestoes = new Intent(MainActivity.this, QuestoesActivity.class);
+                Intent irParaQuestoes = new Intent(MainActivity.this, ShowAllQuestions.class);
                 startActivity(irParaQuestoes);
             }
         });

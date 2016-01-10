@@ -2,11 +2,13 @@ package com.bizu.question;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.provider.BaseColumns;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
     private static final StringBuilder DDL_CREATER = new StringBuilder();
     private static final String DDL_QUESTION = DDL_CREATER
         .append(CREATE_TABLE_IF_NOT_EXISTS).append(QuestionContract.TABLE_NAME)
-        .append(" (").append(QuestionContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+        .append(" (").append(QuestionContract.ID_QUESTAO).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
         .append(QuestionContract.ANO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
         .append(QuestionContract.NUMERO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
         .append(QuestionContract.DESCRICAO_QUESTAO).append(" VARCHAR(2000) NULL").append(COMMA_SEP)
@@ -124,6 +126,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     public static abstract class QuestionContract implements BaseColumns {
         public static final String TABLE_NAME = "TB_QUESTAO";
+        public static final String ID_QUESTAO = "ID_QUESTAO";
         public static final String ANO_QUESTAO = "ANO_QUESTAO";
         public static final String NUMERO_QUESTAO = "NUMERO_QUESTAO";
         public static final String DESCRICAO_QUESTAO = "DESCRICAO_QUESTAO";
@@ -229,7 +232,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
             for (Question question : questions) {
 
-                contentValues.put(QuestionContract._ID, question.getId());
+                contentValues.put(QuestionContract.ID_QUESTAO, question.getId());
                 contentValues.put(QuestionContract.DESCRICAO_QUESTAO, question.getDescription());
                 contentValues.put(QuestionContract.ANO_QUESTAO, question.getQuestionYear());
                 contentValues.put(QuestionContract.NUMERO_QUESTAO, question.getQuestionNumber());
@@ -240,14 +243,56 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
                 contentValues.put(QuestionContract.COMENTARIO_QUESTAO, question.getComentario_questao());
                 contentValues.put(QuestionContract.DIA_PROVA, question.getDia_prova());
                 contentValues.put(QuestionContract.APLICACAO, question.getAplicacao());
-                getWritableDatabase().insert(QuestionContract.TABLE_NAME, null, contentValues);
 
+                if (verifyQuestionExist(question.getId()) == false) {
+
+                    getWritableDatabase().insert(QuestionContract.TABLE_NAME, null, contentValues);
+
+                } else {
+
+                    String [] questionToUpdate = new String[]{question.getId().toString()};
+                    getWritableDatabase().update(QuestionContract.TABLE_NAME, contentValues, QuestionContract.ID_QUESTAO+"=?", questionToUpdate);
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public boolean verifyQuestionExist(Long idQuestion) {
+
+        String sql = "SELECT ID_QUESTAO FROM TB_QUESTAO WHERE ID_QUESTAO = "+idQuestion;
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor c = sqLiteDatabase.rawQuery(sql, null);
+
+        if (c.moveToLast()) {
+
+         return true;
+
+        } else {
+
+            return false;
+        }
+    }
+
+    public List<Question> getAllQuestions () {
+
+
+        String sql = "SELECT ID_QUESTAO, COMANDO_QUESTAO FROM TB_QUESTAO";
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        ArrayList<Question> questions = new ArrayList<Question>();
+
+        while (cursor.moveToNext()) {
+
+            Question question = new Question();
+            question.setId(cursor.getLong(0));
+            question.setDescription(cursor.getString(1));
+            questions.add(question);
+        }
+
+            return questions;
     }
 
 }

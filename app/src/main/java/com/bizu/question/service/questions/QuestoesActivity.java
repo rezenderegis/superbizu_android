@@ -1,5 +1,6 @@
 package com.bizu.question.service.questions;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import com.bizu.network.UpdateListener;
 import com.bizu.question.Question;
 import com.bizu.question.RepositoryOpenHelper;
 import com.bizu.question.service.PHPQuestionService;
+import com.bizu.question.service.download.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +39,16 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
             public void onResponse(List<Question> response, Throwable error) {
                 final RepositoryOpenHelper repository = new RepositoryOpenHelper(QuestoesActivity.this);
                 repository.saveQuestion(response);
-                setListAdapter(new QuestoesAdapter(QuestoesActivity.this, response));
+                repository.close();
+                     //setListAdapter(new QuestoesAdapter(QuestoesActivity.this, response));
+                    //Será executado após a sincronização das questões
+
+                    Intent recarregarTelaInicial = new Intent(QuestoesActivity.this, MainActivity.class);
+                    startActivity(recarregarTelaInicial);
+                    Toast.makeText(QuestoesActivity.this, "Questões atualizadas com sucesso!",Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 
@@ -98,8 +109,8 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        setListAdapter(new QuestoesAdapter(this, questoes));
+         //   finish();
+        //setListAdapter(new QuestoesAdapter(this, questoes));
     }
 
     @Override

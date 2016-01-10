@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.bizu.R;
 import com.bizu.controller.AbstractViewHolder;
 import com.bizu.question.option.controller.OnQuestionOptionClickedListener;

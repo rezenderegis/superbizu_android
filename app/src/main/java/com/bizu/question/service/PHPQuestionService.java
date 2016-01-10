@@ -22,7 +22,9 @@ import java.util.List;
 public class PHPQuestionService implements QuestionService {
 
 //    private static final String ENDERECO = "http://mysale2.hospedagemdesites.ws/mysale/app/teste.php";
-    private static final String ENDERECO = "http://10.0.3.2:1080/mysale/app/teste.php";
+    //private static final String ENDERECO = "http://10.0.3.2:1080/mysale/app/teste.php";
+    private static final String ENDERECO = "http://10.0.3.2/bizu/app/teste.php";
+
 //    private static final String ENDERECO = "http://bizu.educacao.ws/app/teste.php";
    // public String ENDERECO = "http://10.0.3.2/mysale/app/teste.php";
     /**

@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">    
+                <item
+        android:id="@+id/menu_sync_questions"
+        android:icon="@drawable/icons_sincronizar"
+        android:showAsAction="always"
+        android:title="@string/sincronizar"/>
+</menu>

@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bizu.R;
 import com.bizu.controller.AbstractViewHolder;
 import com.bizu.question.option.controller.OnQuestionOptionClickedListener;

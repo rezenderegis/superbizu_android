@@ -1,18 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cor_app">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/tela_questoes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/icons_sincronizar"
+                android:background="@color/cor_app"
+                android:layout_marginTop="20sp"
+                />
+
+            <ImageButton
+                android:id="@+id/questoes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/icons_sincronizar"
+                android:background="@color/cor_app"
+                android:layout_marginTop="20sp"/>
+
+        </TableRow>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="questoes"
-        android:id="@+id/questoes" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tela_questoes"
-        android:id="@+id/tela_questoes" />
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fazer Exercícios"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/branco"
+                />
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Questões Cadastradas"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/branco"/>
+
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/icons_sincronizar"
+                android:background="@color/cor_app" />
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/icons_sincronizar"
+                android:background="@color/cor_app"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4" >
+
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jogos"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/branco"
+                />
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Desafios"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/branco"/>
+
+
+        </TableRow>
+
+
+    </TableLayout>
+
 </LinearLayout>

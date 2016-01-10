@@ -9,8 +9,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bizu.network.UpdateListener;
 import com.bizu.question.Question;
 import com.bizu.question.RepositoryOpenHelper;
+import com.bizu.question.service.PHPQuestionService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,20 +29,27 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        String url="http://bizu.educacao.ws/app/teste.php";
+        final RequestQueue queue = Volley.newRequestQueue(this);
+        final PHPQuestionService service = new PHPQuestionService(queue);
+        service.updateFromServer(new RepositoryOpenHelper(this), new UpdateListener<List<Question>>() {
+            @Override
+            public void onResponse(List<Question> response, Throwable error) {
+                final RepositoryOpenHelper repository = new RepositoryOpenHelper(QuestoesActivity.this);
+                repository.saveQuestion(response);
+                setListAdapter(new QuestoesAdapter(QuestoesActivity.this, response));
+            }
+        });
 
-        String url="http://10.0.3.2/bizu/app/teste.php";
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest jsObjRequest =
-                new JsonObjectRequest(
-                        Request.Method.GET,
-                        url,
-                        null,
-                        this,
-                        this);
-
-        queue.add(jsObjRequest);
+//        JsonObjectRequest jsObjRequest =
+//                new JsonObjectRequest(
+//                        Request.Method.GET,
+//                        url,
+//                        null,
+//                        this,
+//                        this);
+//
+//        queue.add(jsObjRequest);
     }
 
     @Override
@@ -53,8 +62,8 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
             System.out.println(questoesDoServidor.toString());
             for (int i=0; i<questoesDoServidor.length(); i++) {
                 JSONObject item = questoesDoServidor.getJSONObject(i);
-                String descricao_questao = item.getString("DESCRICAO_QUESTAO");
-                Integer id_questao =  Integer.parseInt(item.getString("ID_QUESTAO"));
+                String descrition = item.getString("DESCRICAO_QUESTAO");
+                Integer questionId =  Integer.parseInt(item.getString("ID_QUESTAO"));
                 Integer ano_questao = Integer.parseInt(item.getString("ANO_QUESTAO"));
                 Integer numero_questao = Integer.parseInt(item.getString("NUMERO_QUESTAO"));
                 String comando_questao = item.getString("COMANDO_QUESTAO");
@@ -68,10 +77,10 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
                 Integer aplicacao = Integer.parseInt(item.getString("APLICACAO"));
 
                 Question questao = new Question();
-                questao.setName(descricao_questao);
-                questao.setId(new Long(id_questao));
+                questao.setDescription(descrition);
+                questao.setId(new Long(questionId));
                 questao.setAno_questao(ano_questao);
-                questao.setNumero_questao(numero_questao);
+                questao.setQuestionNumber(numero_questao);
                 questao.setComando_questao(comando_questao);
                 questao.setProva(prova);
                 questao.setSituacao_questao(situacao_questao);
@@ -82,7 +91,6 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
                 questao.setAplicacao(aplicacao);
 
                 questoes.add(questao);
-
 
             }
             repository.saveQuestion(questoes);

@@ -38,7 +38,7 @@ public class QuestoesAdapter extends ArrayAdapter<Question> {
         TextView txt = (TextView)
                 convertView.findViewById(R.id.txtName);
         Question questoes = getItem(position);
-        txt.setText(questoes.getName());
+        txt.setText(questoes.getDescription());
 
 
         return convertView;

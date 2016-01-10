@@ -31,10 +31,10 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         .append(QuestionContract.PROVA).append(" INT NULL").append(COMMA_SEP)
         .append(QuestionContract.SITUACAO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
         .append(QuestionContract.IMAGEM_QUESTAO).append(" VARCHAR(100) NULL").append(COMMA_SEP)
-            .append(QuestionContract.COMENTARIO_QUESTAO).append(" VARCHAR(3000) NULL").append(COMMA_SEP)
-            .append(QuestionContract.LETRA_ITEM_CORRETO).append(" VARCHAR(1) NULL").append(COMMA_SEP)
-            .append(QuestionContract.DIA_PROVA).append(" INT(1) NULL").append(COMMA_SEP)
-            .append(QuestionContract.APLICACAO).append(" INT(1) NULL)").toString();
+        .append(QuestionContract.COMENTARIO_QUESTAO).append(" VARCHAR(3000) NULL").append(COMMA_SEP)
+        .append(QuestionContract.LETRA_ITEM_CORRETO).append(" VARCHAR(1) NULL").append(COMMA_SEP)
+        .append(QuestionContract.DIA_PROVA).append(" INT(1) NULL").append(COMMA_SEP)
+        .append(QuestionContract.APLICACAO).append(" INT(1) NULL)").toString();
 
     private static final String DDL_ITEM = DDL_CREATER.delete(0, DDL_CREATER.length())
         .append(CREATE_TABLE_IF_NOT_EXISTS).append(ItemContract.TABLE_NAME)
@@ -47,7 +47,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         .append(" REFERENCES ").append(QuestionContract.TABLE_NAME)
         .append(" (").append(QuestionContract._ID).append("))").toString();
 
-    private static final String DDL_QUESTAO_HABILIDADES = DDL_CREATER
+    private static final String DDL_QUESTAO_HABILIDADES = DDL_CREATER.delete(0, DDL_CREATER.length())
         .append(CREATE_TABLE_IF_NOT_EXISTS).append(QuestionCompetencesContract.TABLE_NAME)
         .append(" (").append(QuestionCompetencesContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
         .append(QuestionCompetencesContract.TB_HABILIDADES_ID_HABILIDADE).append(" INT").append(COMMA_SEP)
@@ -230,9 +230,9 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
             for (Question question : questions) {
 
                 contentValues.put(QuestionContract._ID, question.getId());
-                contentValues.put(QuestionContract.DESCRICAO_QUESTAO, question.getDescricao_questao());
-                contentValues.put(QuestionContract.ANO_QUESTAO, question.getAno_questao());
-                contentValues.put(QuestionContract.NUMERO_QUESTAO, question.getNumero_questao());
+                contentValues.put(QuestionContract.DESCRICAO_QUESTAO, question.getDescription());
+                contentValues.put(QuestionContract.ANO_QUESTAO, question.getQuestionYear());
+                contentValues.put(QuestionContract.NUMERO_QUESTAO, question.getQuestionNumber());
                 contentValues.put(QuestionContract.COMANDO_QUESTAO, question.getComando_questao());
                 contentValues.put(QuestionContract.PROVA, question.getProva());
                 contentValues.put(QuestionContract.SITUACAO_QUESTAO, question.getSituacao_questao());
@@ -241,7 +241,6 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
                 contentValues.put(QuestionContract.DIA_PROVA, question.getDia_prova());
                 contentValues.put(QuestionContract.APLICACAO, question.getAplicacao());
                 getWritableDatabase().insert(QuestionContract.TABLE_NAME, null, contentValues);
-
 
             }
 

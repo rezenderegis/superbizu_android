@@ -6,7 +6,9 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.bizu.question.Question;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
@@ -16,8 +18,8 @@ import java.util.Map;
  * Created by andre.lmello on 12/9/15.
  */
 public class GsonRequest<T> extends Request<T> {
-    private final Gson mGson = new Gson();
-    private final Class<T> mClazz;
+    private final Gson mGson;
+    private final GsonDeserializeStrategy mStrategy;
     private final Map<String, String> mHeaders;
     private final Response.Listener<T> mListener;
 
@@ -25,13 +27,16 @@ public class GsonRequest<T> extends Request<T> {
      * Make a GET request and return a parsed object from JSON.
      *
      * @param url URL of the request to make
-     * @param clazz Relevant class object, for Gson's reflection
+     * @param strategy deserialize strategy used by Gson.
      * @param headers Map of request mHeaders
      */
-    public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,
+    public GsonRequest(String url, GsonDeserializeStrategy strategy, Map<String, String> headers,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
-        this.mClazz = clazz;
+        final GsonBuilder builder = new GsonBuilder();
+//        builder.registerTypeAdapter(Question.class, new GsonQuestionAdapter());
+        mGson = builder.create();
+        this.mStrategy = strategy;
         this.mHeaders = headers;
         this.mListener = listener;
     }
@@ -53,8 +58,8 @@ public class GsonRequest<T> extends Request<T> {
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(
-                    mGson.fromJson(json, mClazz),
+            return Response.success((T)
+                    mStrategy.deserialize(json, mGson),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));

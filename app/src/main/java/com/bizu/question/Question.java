@@ -1,8 +1,15 @@
 package com.bizu.question;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.bizu.network.UpdateListener;
+import com.bizu.question.item.QuestionItem;
 import com.bizu.question.service.QuestionService;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Domain Class to represent a question. Contains all information to show a question and to make the
@@ -15,16 +22,13 @@ public class Question {
     private Long mId;
 
     @SerializedName("DESCRICAO_QUESTAO")
-    private String mName;
+    private String mDescription;
 
     @SerializedName("ANO_QUESTAO")
-    private Integer ano_questao;
+    private Integer mQuestionYear;
 
     @SerializedName("NUMERO_QUESTAO")
-    private Integer numero_questao;
-
-    @SerializedName("DESCRICAO_QUESTAO")
-    private String descricao_questao;
+    private Integer mQuestionNumber;
 
     @SerializedName("COMANDO_QUESTAO")
     private String comando_questao;
@@ -49,6 +53,30 @@ public class Question {
 
     @SerializedName("APLICACAO")
     private Integer aplicacao;
+
+    private final List<QuestionItem> mItems;
+
+    /**
+     *
+     * @param id
+     * @param description
+     * @param items
+     */
+    public Question(@Nullable final Long id, @NonNull final String description, @NonNull final List<QuestionItem> items) {
+        mId = id;
+        mDescription = description;
+        mItems = items;
+    }
+
+    /**
+     *
+     * @param name
+     * @param items
+     */
+    public Question(final String name, final List<QuestionItem> items) {
+        this(null, name, items);
+    }
+
 
     public String getLetra_item_correto() {
         return letra_item_correto;
@@ -82,28 +110,28 @@ public class Question {
         this.comentario_questao = comentario_questao;
     }
 
-    public Integer getAno_questao() {
-        return ano_questao;
+    public Integer getQuestionYear() {
+        return mQuestionYear;
     }
 
     public void setAno_questao(Integer ano_questao) {
-        this.ano_questao = ano_questao;
+        this.mQuestionYear = ano_questao;
     }
 
-    public Integer getNumero_questao() {
-        return numero_questao;
+    public Integer getQuestionNumber() {
+        return mQuestionNumber;
     }
 
-    public void setNumero_questao(Integer numero_questao) {
-        this.numero_questao = numero_questao;
+    public void setQuestionNumber(Integer questionNumber) {
+        this.mQuestionNumber = questionNumber;
     }
 
-    public String getDescricao_questao() {
-        return descricao_questao;
+    public String getDescription() {
+        return mDescription;
     }
 
-    public void setDescricao_questao(String descricao_questao) {
-        this.descricao_questao = descricao_questao;
+    public void setDescription(String description) {
+        this.mDescription = description;
     }
 
     public String getComando_questao() {
@@ -138,19 +166,13 @@ public class Question {
         this.imagem_questao = imagem_questao;
     }
 
-    public String getName() {
-        return mName;
-    }
-
-    public void setName(String name) {
-        this.mName = name;
-    }
-
     public Question() {
+        mItems = new ArrayList<>();
     }
 
     public Question(final Long id) {
         mId = id;
+        mItems = new ArrayList<>();
     }
 
     /**

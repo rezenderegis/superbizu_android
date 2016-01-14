@@ -1,7 +1,10 @@
 package com.bizu.question.controller;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bizu.R;
@@ -35,5 +38,25 @@ import java.util.List;
 
         lista.setAdapter(questoesAdapter);
         registerForContextMenu(lista);
+
+
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Question questionSelected = (Question) lista.getItemAtPosition(position);
+
+                Intent goToListItens = new Intent(ShowAllQuestions.this, ItensSimpleShowActivity.class);
+                goToListItens.putExtra("questionSelected", questionSelected.getId());
+
+                startActivity(goToListItens);
+
+            }
+        });
+
+
+
+
     }
 }

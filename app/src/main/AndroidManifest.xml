@@ -29,6 +29,11 @@
         <activity android:name=".question.controller.FullscreenActivity"
             android:theme="@style/Theme.AppCompat"
             android:launchMode="singleTop"></activity>
+        <activity android:name=".question.controller.ItensSimpleShowActivity"
+            android:theme="@style/Theme.AppCompat"
+            android:launchMode="singleTop"></activity>
+
+
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />

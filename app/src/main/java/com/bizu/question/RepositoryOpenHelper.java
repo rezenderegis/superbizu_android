@@ -26,107 +26,109 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
     private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS ";
     private static final StringBuilder DDL_CREATER = new StringBuilder();
     private static final String DDL_QUESTION = DDL_CREATER
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(QuestionContract.TABLE_NAME)
-        .append(" (").append(QuestionContract.ID_QUESTAO).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(QuestionContract.ANO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
-        .append(QuestionContract.NUMERO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
-        .append(QuestionContract.DESCRICAO_QUESTAO).append(" VARCHAR(2000) NULL").append(COMMA_SEP)
-        .append(QuestionContract.COMANDO_QUESTAO).append(" VARCHAR(1000) NULL").append(COMMA_SEP)
-        .append(QuestionContract.PROVA).append(" INT NULL").append(COMMA_SEP)
-        .append(QuestionContract.SITUACAO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
-        .append(QuestionContract.IMAGEM_QUESTAO).append(" VARCHAR(100) NULL").append(COMMA_SEP)
-        .append(QuestionContract.COMENTARIO_QUESTAO).append(" VARCHAR(3000) NULL").append(COMMA_SEP)
-        .append(QuestionContract.LETRA_ITEM_CORRETO).append(" VARCHAR(1) NULL").append(COMMA_SEP)
-        .append(QuestionContract.DIA_PROVA).append(" INT(1) NULL").append(COMMA_SEP)
-        .append(QuestionContract.APLICACAO).append(" INT(1) NULL)").toString();
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(QuestionContract.TABLE_NAME)
+            .append(" (").append(QuestionContract.ID_QUESTAO).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(QuestionContract.ANO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
+            .append(QuestionContract.NUMERO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
+            .append(QuestionContract.DESCRICAO_QUESTAO).append(" VARCHAR(2000) NULL").append(COMMA_SEP)
+            .append(QuestionContract.COMANDO_QUESTAO).append(" VARCHAR(1000) NULL").append(COMMA_SEP)
+            .append(QuestionContract.PROVA).append(" INT NULL").append(COMMA_SEP)
+            .append(QuestionContract.SITUACAO_QUESTAO).append(" INT NULL").append(COMMA_SEP)
+            .append(QuestionContract.IMAGEM_QUESTAO).append(" VARCHAR(100) NULL").append(COMMA_SEP)
+            .append(QuestionContract.COMENTARIO_QUESTAO).append(" VARCHAR(3000) NULL").append(COMMA_SEP)
+            .append(QuestionContract.LETRA_ITEM_CORRETO).append(" VARCHAR(1) NULL").append(COMMA_SEP)
+            .append(QuestionContract.DIA_PROVA).append(" INT(1) NULL").append(COMMA_SEP)
+            .append(QuestionContract.APLICACAO).append(" INT(1) NULL)").toString();
 
     private static final String DDL_ITEM = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(ItemContract.TABLE_NAME)
-        .append(" (").append(ItemContract.ID_ITEM).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(ItemContract.ID_QUESTAO).append(" INT NOT NULL").append(COMMA_SEP)
-        .append(ItemContract.DESCRICAO).append(" VARCHAR(1000) NULL").append(COMMA_SEP)
-        .append(ItemContract.SITUACAO_ITEM).append(" INT NULL").append(COMMA_SEP)
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(ItemContract.TABLE_NAME)
+            .append(" (").append(ItemContract.ID_ITEM).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(ItemContract.ID_QUESTAO).append(" INT NOT NULL").append(COMMA_SEP)
+            .append(ItemContract.DESCRICAO).append(" VARCHAR(1000) NULL").append(COMMA_SEP)
+            .append(ItemContract.SITUACAO_ITEM).append(" INT NULL").append(COMMA_SEP)
             .append(ItemContract.LETRA_ITEM).append(" VARCHAR(1)").append(COMMA_SEP)
             .append(ItemContract.NOME_IMAGEM_ITEM).append(" VARCHAR(50)").append(COMMA_SEP)
             .append(ItemContract.NOME_IMAGEM_ITEM_SISTEMA).append(" VARCHAR(100)").append(")").toString();
-         //   .append(" CONSTRAINT fk_TB_ITEM_TB_QUESTAO FOREIGN KEY ").append(QuestionContract.ID_QUESTAO)
-       // .append(" REFERENCES ").append(QuestionContract.TABLE_NAME)
-        //.append(" (").append(QuestionContract.ID_QUESTAO).append("))").toString();
+    //   .append(" CONSTRAINT fk_TB_ITEM_TB_QUESTAO FOREIGN KEY ").append(QuestionContract.ID_QUESTAO)
+    // .append(" REFERENCES ").append(QuestionContract.TABLE_NAME)
+    //.append(" (").append(QuestionContract.ID_QUESTAO).append("))").toString();
 
     private static final String DDL_QUESTAO_HABILIDADES = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(QuestionCompetencesContract.TABLE_NAME)
-        .append(" (").append(QuestionCompetencesContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(QuestionCompetencesContract.TB_HABILIDADES_ID_HABILIDADE).append(" INT").append(COMMA_SEP)
-        .append(QuestionCompetencesContract.TB_QUESTAO_ID_QUESTAO).append(" INT ")
-        .append("CONSTRAINT fk_TB_HABILIDADES_ID_HABILIDADE FOREIGN KEY (")
-        .append(QuestionCompetencesContract.TB_HABILIDADES_ID_HABILIDADE).append(") ")
-        .append("REFERENCES ").append(CompetencesContract.TABLE_NAME).append("(")
-        .append(CompetencesContract._ID).append("))").toString();
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(QuestionCompetencesContract.TABLE_NAME)
+            .append(" (").append(QuestionCompetencesContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(QuestionCompetencesContract.TB_HABILIDADES_ID_HABILIDADE).append(" INT").append(COMMA_SEP)
+            .append(QuestionCompetencesContract.TB_QUESTAO_ID_QUESTAO).append(" INT ")
+            .append("CONSTRAINT fk_TB_HABILIDADES_ID_HABILIDADE FOREIGN KEY (")
+            .append(QuestionCompetencesContract.TB_HABILIDADES_ID_HABILIDADE).append(") ")
+            .append("REFERENCES ").append(CompetencesContract.TABLE_NAME).append("(")
+            .append(CompetencesContract._ID).append("))").toString();
 
     private static final String DDL_HABILIDADES = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(CompetencesContract.TABLE_NAME)
-        .append(" (").append(CompetencesContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(CompetencesContract.TB_COMPETENCIAS_ID_COMPETENCIA).append(" INT NOT NULL").append(COMMA_SEP)
-        .append(CompetencesContract.DESCRICAO_HABILIDADE).append(" VARCHAR(500) NULL ").append(COMMA_SEP)
-        .append("CONSTRAINT fk_TB_HABILIDADES_TB_COMPETENCIAS1 ").append(" FOREIGN KEY (")
-        .append(CompetencesContract.TB_COMPETENCIAS_ID_COMPETENCIA).append(") ")
-        .append("REFERENCES ").append(SkillsContract.TABLE_NAME).append("(")
-        .append(SkillsContract._ID).append("))").toString();
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(CompetencesContract.TABLE_NAME)
+            .append(" (").append(CompetencesContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(CompetencesContract.TB_COMPETENCIAS_ID_COMPETENCIA).append(" INT NOT NULL").append(COMMA_SEP)
+            .append(CompetencesContract.DESCRICAO_HABILIDADE).append(" VARCHAR(500) NULL ").append(COMMA_SEP)
+            .append("CONSTRAINT fk_TB_HABILIDADES_TB_COMPETENCIAS1 ").append(" FOREIGN KEY (")
+            .append(CompetencesContract.TB_COMPETENCIAS_ID_COMPETENCIA).append(") ")
+            .append("REFERENCES ").append(SkillsContract.TABLE_NAME).append("(")
+            .append(SkillsContract._ID).append("))").toString();
 
     private static final String DDL_COMPETENCIAS = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(SkillsContract.TABLE_NAME)
-        .append(" (").append(SkillsContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(SkillsContract.NOME_COMPETENCIA).append(" VARCHAR(45) NULL").append(COMMA_SEP)
-        .append(CompetencesContract.DESCRICAO_HABILIDADE).append(" VARCHAR(500) NULL ").append(")")
-        .toString();
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(SkillsContract.TABLE_NAME)
+            .append(" (").append(SkillsContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(SkillsContract.NOME_COMPETENCIA).append(" VARCHAR(45) NULL").append(COMMA_SEP)
+            .append(CompetencesContract.DESCRICAO_HABILIDADE).append(" VARCHAR(500) NULL ").append(")")
+            .toString();
 
     private static final String DDL_MATERIA = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(SubjectContract.TABLE_NAME)
-        .append(" (").append(SubjectContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(SubjectContract.NOME_MATERIA).append(" VARCHAR(100) NULL").append(")").toString();
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(SubjectContract.TABLE_NAME)
+            .append(" (").append(SubjectContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(SubjectContract.NOME_MATERIA).append(" VARCHAR(100) NULL").append(")").toString();
 
     private static final String DDL_ASSUNTO = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(TopicContract.TABLE_NAME)
-        .append(" (").append(TopicContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(TopicContract.DESCRICAO_ASSUNTO).append(" VARCHAR(2000) NULL").append(COMMA_SEP)
-        .append(TopicContract.ID_MATERIA).append(" INT NOT NULL").append(COMMA_SEP)
-        .append("FOREIGN KEY (").append(TopicContract.ID_MATERIA).append(") REFERENCES ")
-        .append(SubjectContract.TABLE_NAME).append("(").append(SubjectContract._ID).append("))")
-        .toString();
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(TopicContract.TABLE_NAME)
+            .append(" (").append(TopicContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(TopicContract.DESCRICAO_ASSUNTO).append(" VARCHAR(2000) NULL").append(COMMA_SEP)
+            .append(TopicContract.ID_MATERIA).append(" INT NOT NULL").append(COMMA_SEP)
+            .append("FOREIGN KEY (").append(TopicContract.ID_MATERIA).append(") REFERENCES ")
+            .append(SubjectContract.TABLE_NAME).append("(").append(SubjectContract._ID).append("))")
+            .toString();
 
     private static final String DDL_ASSUNTO_MATERIA = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(CREATE_TABLE_IF_NOT_EXISTS).append(TopicSubjectContract.TABLE_NAME)
-        .append(" (").append(TopicSubjectContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-        .append(TopicSubjectContract.TB_ASSUNTO_ID_ITEM).append(" INT NOT NULL").append(COMMA_SEP)
-        .append(TopicSubjectContract.TB_QUESTAO_ID_QUESTAO).append(" INT NOT NULL").append(COMMA_SEP)
-        .append("CONSTRAINT fk_TB_ASSUNTO_MATERIA_TB_ASSUNTO1 ").append(" FOREIGN KEY (")
-        .append(TopicSubjectContract.TB_ASSUNTO_ID_ITEM).append(") ")
-        .append("REFERENCES ").append(TopicContract.TABLE_NAME).append("(")
-        .append(TopicContract._ID).append(")")
-        .append(" ON DELETE NO ACTION ON UPDATE NO ACTION").append(")").toString();
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(TopicSubjectContract.TABLE_NAME)
+            .append(" (").append(TopicSubjectContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(TopicSubjectContract.TB_ASSUNTO_ID_ITEM).append(" INT NOT NULL").append(COMMA_SEP)
+            .append(TopicSubjectContract.TB_QUESTAO_ID_QUESTAO).append(" INT NOT NULL").append(COMMA_SEP)
+            .append("CONSTRAINT fk_TB_ASSUNTO_MATERIA_TB_ASSUNTO1 ").append(" FOREIGN KEY (")
+            .append(TopicSubjectContract.TB_ASSUNTO_ID_ITEM).append(") ")
+            .append("REFERENCES ").append(TopicContract.TABLE_NAME).append("(")
+            .append(TopicContract._ID).append(")")
+            .append(" ON DELETE NO ACTION ON UPDATE NO ACTION").append(")").toString();
 
     private static final String SQL_CREATE_ENTRIES = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(DDL_QUESTION).append(SEMICOLON_SEP)
-        .append(DDL_ITEM).append(SEMICOLON_SEP).toString();
-        /** Subject */
-       // .append(DDL_COMPETENCIAS).append(SEMICOLON_SEP)
-       // .append(DDL_HABILIDADES).append(SEMICOLON_SEP)
-      //  .append(DDL_QUESTAO_HABILIDADES).append(SEMICOLON_SEP)
-      //  .append(DDL_MATERIA).append(SEMICOLON_SEP)
-     //   .append(DDL_ASSUNTO).append(SEMICOLON_SEP)
-     //   .append(DDL_ASSUNTO_MATERIA).append(SEMICOLON_SEP).toString();
+            .append(DDL_QUESTION).append(SEMICOLON_SEP)
+            .append(DDL_ITEM).append(SEMICOLON_SEP).toString();
+    /**
+     * Subject
+     */
+    // .append(DDL_COMPETENCIAS).append(SEMICOLON_SEP)
+    // .append(DDL_HABILIDADES).append(SEMICOLON_SEP)
+    //  .append(DDL_QUESTAO_HABILIDADES).append(SEMICOLON_SEP)
+    //  .append(DDL_MATERIA).append(SEMICOLON_SEP)
+    //   .append(DDL_ASSUNTO).append(SEMICOLON_SEP)
+    //   .append(DDL_ASSUNTO_MATERIA).append(SEMICOLON_SEP).toString();
 
     private static final String SQL_DELETE_ENTRIES = DDL_CREATER.delete(0, DDL_CREATER.length())
-        .append(DROP_TABLE).append(QuestionContract.TABLE_NAME).append(SEMICOLON_SEP)
-        .append(DROP_TABLE).append(ItemContract.TABLE_NAME).append(SEMICOLON_SEP)
-        /** Subject */
-        .append(DROP_TABLE).append(TopicSubjectContract.TABLE_NAME).append(SEMICOLON_SEP)
-        .append(DROP_TABLE).append(TopicContract.TABLE_NAME).append(SEMICOLON_SEP)
-        .append(DROP_TABLE).append(SubjectContract.TABLE_NAME).append(SEMICOLON_SEP)
-        .append(DROP_TABLE).append(QuestionCompetencesContract.TABLE_NAME).append(SEMICOLON_SEP)
-        .append(DROP_TABLE).append(CompetencesContract.TABLE_NAME).append(SEMICOLON_SEP)
-        .append(DROP_TABLE).append(SkillsContract.TABLE_NAME).append(SEMICOLON_SEP)
-        .toString();
+            .append(DROP_TABLE).append(QuestionContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .append(DROP_TABLE).append(ItemContract.TABLE_NAME).append(SEMICOLON_SEP)
+                    /** Subject */
+            .append(DROP_TABLE).append(TopicSubjectContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .append(DROP_TABLE).append(TopicContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .append(DROP_TABLE).append(SubjectContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .append(DROP_TABLE).append(QuestionCompetencesContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .append(DROP_TABLE).append(CompetencesContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .append(DROP_TABLE).append(SkillsContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .toString();
 
     @Override
     public <T> T save(Item item, SaveListener listener) {
@@ -161,7 +163,9 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         public static final String NOME_IMAGEM_ITEM_SISTEMA = "NOME_IMAGEM_ITEM_SISTEMA";
     }
 
-    /** Subject */
+    /**
+     * Subject
+     */
     public static abstract class SubjectContract implements BaseColumns {
         public static final String TABLE_NAME = "TB_MATERIA";
         public static final String NOME_MATERIA = "NOME_MATERIA";
@@ -196,7 +200,9 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         public static final String NOME_COMPETENCIA = "NOME_COMPETENCIA";
     }
 
-    /** Constructor */
+    /**
+     * Constructor
+     */
     public RepositoryOpenHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -254,9 +260,9 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
                 contentValues.put(ItemContract.LETRA_ITEM, item.getLetraItem());
                 if (verifyItemExist(item.getIdItem()) == false) {
                     getWritableDatabase().insert(ItemContract.TABLE_NAME, null, contentValues);
-                }  else {
-                    String [] itemToUpdate = new String []{item.getIdItem().toString()};
-                    getWritableDatabase().update(ItemContract.TABLE_NAME, contentValues, ItemContract.ID_ITEM+"=?", itemToUpdate);
+                } else {
+                    String[] itemToUpdate = new String[]{item.getIdItem().toString()};
+                    getWritableDatabase().update(ItemContract.TABLE_NAME, contentValues, ItemContract.ID_ITEM + "=?", itemToUpdate);
                 }
             }
 
@@ -266,9 +272,9 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     }
 
-    public boolean verifyItemExist (Integer idItem){
+    public boolean verifyItemExist(Integer idItem) {
 
-        String sql = "SELECT ID_ITEM FROM TB_ITEM WHERE ID_ITEM = "+idItem;
+        String sql = "SELECT ID_ITEM FROM TB_ITEM WHERE ID_ITEM = " + idItem;
 
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         Cursor c = sqLiteDatabase.rawQuery(sql, null);
@@ -307,8 +313,8 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
                 } else {
 
-                    String [] questionToUpdate = new String[]{question.getId().toString()};
-                    getWritableDatabase().update(QuestionContract.TABLE_NAME, contentValues, QuestionContract.ID_QUESTAO+"=?", questionToUpdate);
+                    String[] questionToUpdate = new String[]{question.getId().toString()};
+                    getWritableDatabase().update(QuestionContract.TABLE_NAME, contentValues, QuestionContract.ID_QUESTAO + "=?", questionToUpdate);
                 }
             }
 
@@ -319,13 +325,13 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     public boolean verifyQuestionExist(Long idQuestion) {
 
-        String sql = "SELECT ID_QUESTAO FROM TB_QUESTAO WHERE ID_QUESTAO = "+idQuestion;
+        String sql = "SELECT ID_QUESTAO FROM TB_QUESTAO WHERE ID_QUESTAO = " + idQuestion;
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor c = sqLiteDatabase.rawQuery(sql, null);
 
         if (c.moveToLast()) {
 
-         return true;
+            return true;
 
         } else {
 
@@ -333,7 +339,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         }
     }
 
-    public List<Question> getAllQuestions () {
+    public List<Question> getAllQuestions() {
 
         String sql = "SELECT ID_QUESTAO, COMANDO_QUESTAO FROM TB_QUESTAO";
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
@@ -347,7 +353,47 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
             question.setDescription(cursor.getString(1));
             questions.add(question);
         }
-            return questions;
+        return questions;
+    }
+
+    public List<Item> getAllItens(Long idQuestionSelected) {
+
+        String sql = "SELECT DESCRICAO FROM TB_ITEM WHERE ID_QUESTAO = "+idQuestionSelected;
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        ArrayList<Item> itens = new ArrayList<Item>();
+
+        while (cursor.moveToNext()) {
+
+            Item item = new Item();
+            item.setDescricao(cursor.getString(0));
+            itens.add(item);
+        }
+        return itens;
+
+    }
+    /*
+    * Método utilizando enquanto estivermos fazendo testes no app
+    *
+    * */
+
+    public void clearDatabaseQuestionItem() {
+
+        String deleteQuestion = "DELETE FROM TB_QUESTAO";
+
+        String deleteItem = "DELETE FROM TB_ITEM";
+
+       // String deleteSequenceQuestion = "DELETE FROM SQLITE_SEQUENCE WHERE NAME  = 'TB_QUESTAO'";
+       /// String deleteSequenceiTEM = "DELETE FROM SQLITE_SEQUENCE WHERE NAME  = 'TB_ITEM'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        db.execSQL(deleteQuestion);
+        db.execSQL(deleteItem);
+      //  db.execSQL(deleteSequenceQuestion);
+       // db.execSQL(deleteSequenceiTEM);
+
+
     }
 }
 

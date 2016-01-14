@@ -2,10 +2,12 @@ package com.bizu.question;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by fabricio on 1/11/16.
  */
-public class Item {
+public class Item implements Serializable {
 
     @SerializedName("ID_QUESTAO")
     private Integer idQuestao;
@@ -85,4 +87,35 @@ public class Item {
     }
 
 
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((idItem == null) ? 0 : idItem.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Item other = (Item) obj;
+        if (idItem == null) {
+            if (other.idItem != null)
+                return false;
+        } else if (!idItem.equals(other.idItem))
+            return false;
+        return true;
+    }
 }

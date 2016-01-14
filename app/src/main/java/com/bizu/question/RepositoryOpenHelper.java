@@ -11,6 +11,7 @@ import android.provider.BaseColumns;
 import com.bizu.question.service.item.ItemRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
 public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRepository, ItemRepository {
 
     public final static String DATABASE_NAME = "Question.db";
-    public final static int DATABASE_VERSION = 11;
+    public final static int DATABASE_VERSION = 15;
     private static final String COMMA_SEP = ",";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS ";
     private static final String SEMICOLON_SEP = ";";
@@ -39,6 +40,17 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
             .append(QuestionContract.LETRA_ITEM_CORRETO).append(" VARCHAR(1) NULL").append(COMMA_SEP)
             .append(QuestionContract.DIA_PROVA).append(" INT(1) NULL").append(COMMA_SEP)
             .append(QuestionContract.APLICACAO).append(" INT(1) NULL)").toString();
+
+    private static final String DD_LOG_PROCESSAMENTO = DDL_CREATER.delete(0, DDL_CREATER.length())
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(LogProcessContract.TABLE_NAME)
+            .append(" (").append(LogProcessContract.ID_LOG_PROCESSAMENTO).append(" INTEGER PRIMARY KEY AUTOINCREMENT").append(COMMA_SEP)
+            .append(LogProcessContract.DATA_INICIO_PROCESAMENTO).append(" DATE NULL").append(COMMA_SEP)
+            .append(LogProcessContract.DATA_FIM_PROCESSAMENTO).append(" DATE NULL").append(COMMA_SEP)
+            .append(LogProcessContract.QTD_ATUALIZADOS).append(" INTEGER NULL").append(COMMA_SEP)
+            .append(LogProcessContract.QTD_INSERIDOS).append(" INTEGER NULL").append(COMMA_SEP)
+            .append(LogProcessContract.TIPO_TABELA_ATUALIZADA).append(" TEXT NULL)").toString();
+
+
 
     private static final String DDL_ITEM = DDL_CREATER.delete(0, DDL_CREATER.length())
             .append(CREATE_TABLE_IF_NOT_EXISTS).append(ItemContract.TABLE_NAME)
@@ -107,6 +119,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     private static final String SQL_CREATE_ENTRIES = DDL_CREATER.delete(0, DDL_CREATER.length())
             .append(DDL_QUESTION).append(SEMICOLON_SEP)
+            .append(DD_LOG_PROCESSAMENTO).append(SEMICOLON_SEP)
             .append(DDL_ITEM).append(SEMICOLON_SEP).toString();
     /**
      * Subject
@@ -200,6 +213,17 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         public static final String NOME_COMPETENCIA = "NOME_COMPETENCIA";
     }
 
+    public static abstract class LogProcessContract implements BaseColumns {
+        public static final String TABLE_NAME = "TB_LOG_PROCESSAMENTO";
+        public static final String ID_LOG_PROCESSAMENTO = "ID_LOG_PROCESSAMENTO";
+        public static final String DATA_INICIO_PROCESAMENTO = "DATA_INICIO_PROCESAMENTO";
+        public static final String DATA_FIM_PROCESSAMENTO = "DATA_FIM_PROCESSAMENTO";
+        public static final String QTD_ATUALIZADOS = "QTD_ATUALIZADOS";
+        public static final String QTD_INSERIDOS = "QTD_INSERIDOS";
+        public static final String TIPO_TABELA_ATUALIZADA = "TIPO_TABELA_ATUALIZADA";
+
+    }
+
     /**
      * Constructor
      */
@@ -229,6 +253,8 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         db.execSQL(ddlAssuntoMateria);*/
         db.execSQL(DDL_QUESTION);
         db.execSQL(DDL_ITEM);
+        db.execSQL(DD_LOG_PROCESSAMENTO);
+
 
 
     }
@@ -249,7 +275,16 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
     public void saveItem(List<Item> itens) {
 
         ContentValues contentValues = new ContentValues();
+
+        Integer qtdInserted = 0;
+        Integer qtdUptadate = 0;
+        Date dateStartProcess = null;
+        Date dateFinishProcess = null;
+
+
         try {
+            dateStartProcess = new Date();
+
             for (Item item : itens) {
                 contentValues.put(ItemContract.ID_ITEM, item.getIdItem());
                 contentValues.put(ItemContract.ID_QUESTAO, item.getIdQuestao());
@@ -260,11 +295,16 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
                 contentValues.put(ItemContract.LETRA_ITEM, item.getLetraItem());
                 if (verifyItemExist(item.getIdItem()) == false) {
                     getWritableDatabase().insert(ItemContract.TABLE_NAME, null, contentValues);
+                    qtdInserted++;
                 } else {
                     String[] itemToUpdate = new String[]{item.getIdItem().toString()};
                     getWritableDatabase().update(ItemContract.TABLE_NAME, contentValues, ItemContract.ID_ITEM + "=?", itemToUpdate);
+                    qtdUptadate++;
                 }
+                dateFinishProcess = new Date();
+
             }
+            saveLogProcessInsertUpdate(qtdInserted, qtdUptadate, dateStartProcess, dateFinishProcess, "I");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -290,8 +330,13 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
     public void saveQuestion(List<Question> questions) {
 
         ContentValues contentValues = new ContentValues();
+        Integer qtdQuestionsInserted = 0;
+        Integer qtdQuestionUptadate = 0;
+        Date dateStartProcess = null;
+        Date dateFinishProcess = null;
 
         try {
+            dateStartProcess = new Date();
 
             for (Question question : questions) {
 
@@ -310,17 +355,41 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
                 if (verifyQuestionExist(question.getId()) == false) {
 
                     getWritableDatabase().insert(QuestionContract.TABLE_NAME, null, contentValues);
-
+                    qtdQuestionsInserted++;
                 } else {
 
                     String[] questionToUpdate = new String[]{question.getId().toString()};
                     getWritableDatabase().update(QuestionContract.TABLE_NAME, contentValues, QuestionContract.ID_QUESTAO + "=?", questionToUpdate);
+                    qtdQuestionUptadate++;
                 }
+                dateFinishProcess = new Date();
             }
+
+            saveLogProcessInsertUpdate(qtdQuestionsInserted, qtdQuestionUptadate, dateStartProcess, dateFinishProcess, "Q");
+            //System.out.println("QTD QUESTOES INSERIDAS: " + qtdQuestionsInserted);
+            //System.out.println("QTD QUESTION ATUALIZADAS: "+qtdQuestionUptadate);
+            //System.out.println("Data inicio processamento "+dateStartProcess.toString());
+            //System.out.println("Data fim processamento: "+dateFinishProcess.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveLogProcessInsertUpdate(Integer qtdInserted, Integer qtdUptadate, Date dateStartProcess, Date dateFinishProcess, String typeTable) {
+
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(LogProcessContract.QTD_INSERIDOS, qtdInserted);
+        contentValues.put(LogProcessContract.QTD_ATUALIZADOS, qtdUptadate);
+        contentValues.put(LogProcessContract.DATA_INICIO_PROCESAMENTO, dateStartProcess.toString());
+        contentValues.put(LogProcessContract.DATA_FIM_PROCESSAMENTO, dateFinishProcess.toString());
+        contentValues.put(LogProcessContract.TIPO_TABELA_ATUALIZADA, typeTable);
+
+        sqLiteDatabase.insert(LogProcessContract.TABLE_NAME, null, contentValues);
+
     }
 
     public boolean verifyQuestionExist(Long idQuestion) {

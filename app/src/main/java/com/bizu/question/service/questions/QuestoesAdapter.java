@@ -35,11 +35,13 @@ public class QuestoesAdapter extends ArrayAdapter<Question> {
                     .inflate(R.layout.lista_questoes, null);
         }
 
+        TextView idQuestao = (TextView) convertView.findViewById(R.id.idQuestao);
+
         TextView txt = (TextView)
                 convertView.findViewById(R.id.txtName);
         Question questoes = getItem(position);
         txt.setText(questoes.getDescription());
-
+        idQuestao.setText(questoes.getId().toString());
 
         return convertView;
     }

@@ -5,7 +5,14 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF">
 
-
+    <TextView
+        android:id="@+id/idQuestao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="@null"/>
 
     <TextView
         android:id="@+id/txtName"

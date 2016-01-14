@@ -1,8 +1,7 @@
 package com.bizu.question.service.TopicQuestion;
 
-import com.bizu.entity.Item;
+import com.bizu.android.database.SaveListener;
 import com.bizu.entity.TopicQuestion;
-import com.bizu.question.SaveListener;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public interface TopicQuestionRepository {
 
-    public <T> T save(final TopicQuestion topicQuestion, final SaveListener listener);
-
+    public <T> T save(final TopicQuestion topicQuestion, final SaveListener<TopicQuestion> listener);
+    public <T> T save(final List<TopicQuestion> topicQuestion, final SaveListener<List<TopicQuestion>> listener);
 
 }

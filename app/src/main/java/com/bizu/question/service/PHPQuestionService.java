@@ -1,17 +1,16 @@
 package com.bizu.question.service;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.bizu.network.ClassDeserializeStrategy;
 import com.bizu.network.GsonRequest;
 import com.bizu.network.ListTypeTokenDeserializeStrategy;
-import com.bizu.network.UpdateListener;
 import com.bizu.entity.Question;
-import com.bizu.question.QuestionRepository;
+import com.bizu.network.ServiceListener;
+import com.bizu.network.VolleyServerListener;
 
 import java.util.List;
 
@@ -23,32 +22,20 @@ public class PHPQuestionService implements QuestionService {
 
 //    private static final String ENDERECO = "http://mysale2.hospedagemdesites.ws/mysale/app/teste.php";
     //private static final String ENDERECO = "http://10.0.3.2:1080/mysale/app/teste.php";
-    //private static final String ENDERECO = "http://10.0.3.2/bizu/app/teste.php";
-    private static final String ENDERECO = "http://www.bizu.educacao.ws/app/teste.php";
-
-//    private static final String ENDERECO = "http://bizu.educacao.ws/app/teste.php";
+    private static final String ENDERECO = "http://bizu.educacao.ws/app/teste.php";
    // public String ENDERECO = "http://10.0.3.2/mysale/app/teste.php";
+    private final Context mContext;
     /**
      *
      * @param requestQueue to schedule tasks.
      */
-    public PHPQuestionService(final RequestQueue requestQueue) {
+    public PHPQuestionService(final RequestQueue requestQueue, final Context context) {
+        mContext = context;
         mRequestQueue = requestQueue;
     }
 
-    public Request<Question> update(@NonNull Question questionToUpdate, final UpdateListener listener)
-            throws NullPointerException {
-        if (questionToUpdate == null)
-            throw new IllegalArgumentException("questionToUpdate cannot be null, neither queueStrategy");
-        final ServiceListener volleyListener = new ServiceListener(listener);
-        final Request<Question> volleyRequest = new GsonRequest<>(ENDERECO, new ClassDeserializeStrategy<>(Question.class)
-                , null, volleyListener, volleyListener);
-        return mRequestQueue.add(volleyRequest);
-    }
-
-    public Request<List<Question>> updateFromServer(QuestionRepository repository
-            , UpdateListener listener) {
-        final ServiceListener<List<Question>> volleyListener = new ServiceListener<>(listener);
+    public Request<List<Question>> retrieveQuestionFromServer(ServiceListener listener) {
+        final VolleyServerListener volleyListener = new VolleyServerListener(listener, mContext);
         final Request<List<Question>> volleyRequest = new GsonRequest<>(ENDERECO
                 , new ListTypeTokenDeserializeStrategy<Question>(Question.class)
                 , null, volleyListener, volleyListener);
@@ -56,23 +43,4 @@ public class PHPQuestionService implements QuestionService {
     }
 
     private final RequestQueue mRequestQueue;
-}
-
-class ServiceListener<T> implements Response.Listener<T>, Response.ErrorListener {
-
-    private final UpdateListener<T> mListener;
-
-    public ServiceListener(final UpdateListener<T> listener) {
-        mListener = listener;
-    }
-
-    @Override
-    public void onResponse(T response) {
-        mListener.onResponse(response, null);
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        mListener.onResponse(null, error);
-    }
 }

@@ -2,13 +2,16 @@ package com.bizu.question.service.questions;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.bizu.network.UpdateListener;
 import com.bizu.entity.Question;
-import com.bizu.question.RepositoryOpenHelper;
+import com.bizu.network.ServiceListener;
+import com.bizu.android.database.RepositoryOpenHelper;
+import com.bizu.question.SQLiteQuestionRepository;
+import com.bizu.android.database.SaveListener;
 import com.bizu.question.service.PHPQuestionService;
 import com.bizu.question.service.download.MainActivity;
 
@@ -18,89 +21,35 @@ import java.util.List;
  * Created by fabricio on 1/6/16.
  */
 public class QuestoesActivity extends ListActivity {
-
+    public final static String TAG = QuestoesActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        String url="http://bizu.educacao.ws/app/teste.php";
         final RequestQueue queue = Volley.newRequestQueue(this);
-        final PHPQuestionService service = new PHPQuestionService(queue);
-        service.updateFromServer(new RepositoryOpenHelper(this), new UpdateListener<List<Question>>() {
+        final PHPQuestionService questionService = new PHPQuestionService(queue, this);
+        questionService.retrieveQuestionFromServer(new ServiceListener<List<Question>>() {
             @Override
             public void onResponse(List<Question> response, Throwable error) {
-                final RepositoryOpenHelper repository = new RepositoryOpenHelper(QuestoesActivity.this);
-                repository.saveQuestion(response);
-                repository.close();
-
-                    Intent recarregarTelaInicial = new Intent(QuestoesActivity.this, MainActivity.class);
-                    startActivity(recarregarTelaInicial);
-                    Toast.makeText(QuestoesActivity.this, "Questões atualizadas com sucesso!",Toast.LENGTH_SHORT).show();
-
-
-
+                if (error == null && response != null) {
+                    final SQLiteQuestionRepository questionRepository =
+                            new SQLiteQuestionRepository(RepositoryOpenHelper.getInstance(getApplicationContext()));
+                    questionRepository.save(response, new SaveListener<List<Question>>() {
+                        @Override
+                        public void onSaveFinish(List<Question> saved, Throwable e) {
+                            if (e == null && saved != null) {
+                                final Intent recarregarTelaInicial = new Intent(QuestoesActivity.this, MainActivity.class);
+                                Toast.makeText(QuestoesActivity.this, "Questões atualizadas com sucesso!"
+                                        , Toast.LENGTH_SHORT).show();
+                                startActivity(recarregarTelaInicial);
+                            } else {
+                                Log.e(TAG, "Erro ao salvar", e);
+                            }
+                        }
+                    });
+                } else {
+                    Log.e(TAG, "Erro ao salvar", error);
+                }
             }
         });
-
-//        JsonObjectRequest jsObjRequest =
-//                new JsonObjectRequest(
-//                        Request.Method.GET,
-//                        url,
-//                        null,
-//                        this,
-//                        this);
-//
-//        queue.add(jsObjRequest);
     }
-/*
-    @Override
-    public void onResponse(JSONObject response) {
-        List<Question> questoes = new ArrayList<Question>();
-        RepositoryOpenHelper repository = new RepositoryOpenHelper(this);
-
-        try {
-            JSONArray questoesDoServidor = response.getJSONArray("questoes");
-
-            for (int i=0; i<questoesDoServidor.length(); i++) {
-                JSONObject item = questoesDoServidor.getJSONObject(i);
-                String descrition = item.getString("DESCRICAO_QUESTAO");
-                Integer questionId =  Integer.parseInt(item.getString("ID_QUESTAO"));
-                Integer ano_questao = Integer.parseInt(item.getString("ANO_QUESTAO"));
-                Integer numero_questao = Integer.parseInt(item.getString("NUMERO_QUESTAO"));
-                String comando_questao = item.getString("COMANDO_QUESTAO");
-                Integer prova = Integer.parseInt(item.getString("PROVA"));
-                Integer situacao_questao = Integer.parseInt(item.getString("SITUACAO_QUESTAO"));
-                String nome_imagem_questao = item.getString("NOME_IMAGEM_QUESTAO");
-                String comentario_questao = item.getString("COMENTARIO_QUESTAO");
-                String nome_imagem_questao_sistema = item.getString("NOME_IMAGEM_QUESTAO_SISTEMA");
-                String letra_item_correto = item.getString("LETRA_ITEM_CORRETO");
-                Integer dia_prova = Integer.parseInt(item.getString("DIA_PROVA"));
-                Integer aplicacao = Integer.parseInt(item.getString("APLICACAO"));
-
-                Question questao = new Question();
-                questao.setDescription(descrition);
-                questao.setId(new Long(questionId));
-                questao.setAno_questao(ano_questao);
-                questao.setQuestionNumber(numero_questao);
-                questao.setComando_questao(comando_questao);
-                questao.setProva(prova);
-                questao.setSituacao_questao(situacao_questao);
-                questao.setImagem_questao(nome_imagem_questao_sistema);
-                questao.setComentario_questao(comentario_questao);
-                questao.setLetra_item_correto(letra_item_correto);
-                questao.setDia_prova(dia_prova);
-                questao.setAplicacao(aplicacao);
-
-                questoes.add(questao);
-
-            }
-            repository.saveQuestion(questoes);
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-         //   finish();
-        //setListAdapter(new QuestoesAdapter(this, questoes));
-    }
-*/
-
 }

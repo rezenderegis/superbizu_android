@@ -1,15 +1,10 @@
-package com.bizu.question.service.item;
-
-import android.support.annotation.NonNull;
-
+package com.bizu.question.item;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.bizu.network.ClassDeserializeStrategy;
 import com.bizu.network.GsonRequest;
 import com.bizu.network.ListTypeTokenDeserializeStrategy;
-import com.bizu.network.UpdateListener;
-import com.bizu.entity.Item;
 
+import com.bizu.network.ServiceListener;
 import java.util.List;
 
 /**
@@ -33,18 +28,27 @@ public class PHPItemService implements ItemService {
         mRequestQueue = requestQueue;
     }
 
-    public Request<Item> update(@NonNull Item questionToUpdate, final UpdateListener listener)
-            throws NullPointerException {
-        if (questionToUpdate == null)
-            throw new IllegalArgumentException("questionToUpdate cannot be null, neither queueStrategy");
-        final ServiceListenerItem volleyListener = new ServiceListenerItem(listener);
-        final Request<Item> volleyRequest = new GsonRequest<>(ENDERECO, new ClassDeserializeStrategy<>(Item.class)
-                , null, volleyListener, volleyListener);
-        return mRequestQueue.add(volleyRequest);
-    }
+//    public Request<Item> update(@NonNull Item questionToUpdate, final ServiceListener listener)
+//            throws NullPointerException {
+//        if (questionToUpdate == null)
+//            throw new IllegalArgumentException("questionToUpdate cannot be null, neither queueStrategy");
+//        final ServiceListenerItem volleyListener = new ServiceListenerItem(listener);
+//        final Request<Item> volleyRequest = new GsonRequest<>(ENDERECO, new ClassDeserializeStrategy<>(Item.class)
+//                , null, volleyListener, volleyListener);
+//        return mRequestQueue.add(volleyRequest);
+//    }
+//
+//    public Request<List<Item>> retrieveFromServer(ItemRepository repository
+//            , UpdateListener listener) {
+//        final ServiceListenerItem<List<Item>> volleyListener = new ServiceListenerItem<>(listener);
+//        final Request<List<Item>> volleyRequest = new GsonRequest<>(ENDERECO
+//                , new ListTypeTokenDeserializeStrategy<Item>(Item.class)
+//                , null, volleyListener, volleyListener);
+//        return mRequestQueue.add(volleyRequest);
+//    }
 
-    public Request<List<Item>> updateFromServer(ItemRepository repository
-            , UpdateListener listener) {
+    @Override
+    public Request<List<Item>> retrieveItemsFromServer(final ServiceListener listener) {
         final ServiceListenerItem<List<Item>> volleyListener = new ServiceListenerItem<>(listener);
         final Request<List<Item>> volleyRequest = new GsonRequest<>(ENDERECO
                 , new ListTypeTokenDeserializeStrategy<Item>(Item.class)

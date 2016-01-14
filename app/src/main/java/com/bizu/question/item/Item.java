@@ -1,4 +1,4 @@
-package com.bizu.entity;
+package com.bizu.question.item;
 
 import com.google.gson.annotations.SerializedName;
 

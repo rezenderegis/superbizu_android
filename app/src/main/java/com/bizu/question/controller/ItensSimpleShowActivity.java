@@ -3,12 +3,15 @@ package com.bizu.question.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.bizu.R;
-import com.bizu.entity.Item;
-import com.bizu.question.RepositoryOpenHelper;
+import com.bizu.android.database.RepositoryOpenHelper;
+import com.bizu.android.database.RetrieveListener;
+import com.bizu.question.item.Item;
+import com.bizu.question.item.SQLiteItemRepository;
 
 import java.util.List;
 
@@ -16,6 +19,9 @@ import java.util.List;
  * Created by fabricio on 1/14/16.
  */
 public class ItensSimpleShowActivity extends Activity {
+
+    public final static String TAG = ItensSimpleShowActivity.class.getSimpleName();
+
     int layout;
     ListView lista;
 
@@ -33,19 +39,28 @@ public class ItensSimpleShowActivity extends Activity {
     }
 
     public void showList() {
-
-        RepositoryOpenHelper repositoryOpenHelper = new RepositoryOpenHelper(ItensSimpleShowActivity.this);
-        Intent intent = getIntent();
-
+        final SQLiteItemRepository repository =
+                new SQLiteItemRepository(RepositoryOpenHelper.getInstance(getApplicationContext()));
+        final Intent intent = getIntent();
         final Long idQuestionSelected = (Long) intent.getSerializableExtra("questionSelected");
 
-        List<Item> itens = repositoryOpenHelper.getAllItens(idQuestionSelected);
-        repositoryOpenHelper.close();
+        repository.retrieveAllItems(new RetrieveListener<List<Item>>() {
+            @Override
+            public void onRetrieve(List<Item> entity, Throwable error) {
+                if (error == null && entity != null) {
+                    ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(
+                            ItensSimpleShowActivity.this, layout, entity);
 
-        ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(
-                this, layout, itens);
+                    adapter.notifyDataSetChanged();
+                    lista.setAdapter(adapter);
+                } else if (error != null) {
+                    Log.e(TAG, "Erro ao recuperar todos os itens", error);
+                } else {
+                    throw new RuntimeException("What the fock!");
+                }
+            }
+        }, idQuestionSelected);
 
-        lista.setAdapter(adapter);
     }
 
     @Override

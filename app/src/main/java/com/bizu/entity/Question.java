@@ -3,11 +3,9 @@ package com.bizu.entity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.bizu.network.UpdateListener;
 import com.bizu.question.QuestionRepository;
-import com.bizu.question.SaveListener;
+import com.bizu.android.database.SaveListener;
 import com.bizu.question.item.QuestionItem;
-import com.bizu.question.service.QuestionService;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -179,24 +177,11 @@ public class Question {
 
     /**
      * Async
-     * @param <T>
-     * @return any return. created for network frameworks.
-     */
-    public <T> T update(final UpdateListener<Question> listener, final QuestionService service) {
-        if (mId != null) {
-            return service.update(this, listener);
-        } else {
-            throw new IllegalStateException("Cannot update questions not loaded to the data base yet.");
-        }
-    }
-
-    /**
-     * Async
      * @param repository
      * @param <T>
      * @return
      */
-    public <T> T save(final SaveListener listener, final QuestionRepository repository) {
+    public <T> T save(final SaveListener<Question> listener, final QuestionRepository repository) {
         return repository.save(this, listener);
     }
 

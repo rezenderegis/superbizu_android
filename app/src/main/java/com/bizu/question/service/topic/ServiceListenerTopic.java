@@ -2,13 +2,13 @@ package com.bizu.question.service.topic;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.bizu.network.UpdateListener;
+import com.bizu.network.ServiceListener;
 
 class ServiceListenerTopic<T> implements Response.Listener<T>, Response.ErrorListener {
 
-    private final UpdateListener<T> mListener;
+    private final ServiceListener<T> mListener;
 
-    public ServiceListenerTopic(final UpdateListener<T> listener) {
+    public ServiceListenerTopic(final ServiceListener<T> listener) {
         mListener = listener;
     }
 

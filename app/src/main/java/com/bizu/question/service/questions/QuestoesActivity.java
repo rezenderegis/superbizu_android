@@ -25,8 +25,7 @@ import java.util.List;
 /**
  * Created by fabricio on 1/6/16.
  */
-public class QuestoesActivity extends ListActivity implements Response.Listener<JSONObject>,
-        Response.ErrorListener {
+public class QuestoesActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +39,6 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
                 final RepositoryOpenHelper repository = new RepositoryOpenHelper(QuestoesActivity.this);
                 repository.saveQuestion(response);
                 repository.close();
-                     //setListAdapter(new QuestoesAdapter(QuestoesActivity.this, response));
-                    //Será executado após a sincronização das questões
 
                     Intent recarregarTelaInicial = new Intent(QuestoesActivity.this, MainActivity.class);
                     startActivity(recarregarTelaInicial);
@@ -62,7 +59,7 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
 //
 //        queue.add(jsObjRequest);
     }
-
+/*
     @Override
     public void onResponse(JSONObject response) {
         List<Question> questoes = new ArrayList<Question>();
@@ -70,7 +67,7 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
 
         try {
             JSONArray questoesDoServidor = response.getJSONArray("questoes");
-            System.out.println(questoesDoServidor.toString());
+
             for (int i=0; i<questoesDoServidor.length(); i++) {
                 JSONObject item = questoesDoServidor.getJSONObject(i);
                 String descrition = item.getString("DESCRICAO_QUESTAO");
@@ -112,10 +109,6 @@ public class QuestoesActivity extends ListActivity implements Response.Listener<
          //   finish();
         //setListAdapter(new QuestoesAdapter(this, questoes));
     }
+*/
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(this, "Erro!",
-                Toast.LENGTH_SHORT).show();
-    }
 }

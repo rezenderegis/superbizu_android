@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bizu.R;
 import com.bizu.question.controller.FullscreenActivity;
+import com.bizu.question.controller.ItemServiceActivity;
 import com.bizu.question.controller.ShowAllQuestions;
 import com.bizu.question.service.questions.QuestoesActivity;
 
@@ -79,7 +80,8 @@ public class MainActivity extends Activity {
 
         switch (selectedItem) {
             case R.id.menu_sync_questions:
-                Intent syncQuestion = new Intent(MainActivity.this, QuestoesActivity.class);
+                //Intent syncQuestion = new Intent(MainActivity.this, QuestoesActivity.class);
+                Intent syncQuestion = new Intent(MainActivity.this, ItemServiceActivity.class);
                 startActivity(syncQuestion);
                 break;
         }

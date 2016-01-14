@@ -20,7 +20,8 @@
         </activity>
 
 
-
+        <activity android:name=".question.controller.ItemServiceActivity"
+            android:launchMode="singleTop"></activity>
         <activity android:name=".question.service.questions.QuestoesActivity"
             android:launchMode="singleTop"></activity>
         <activity android:name=".question.controller.ShowAllQuestions"

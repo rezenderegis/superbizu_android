@@ -8,16 +8,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.provider.BaseColumns;
 
+import com.bizu.question.service.item.ItemRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by andre.lmello on 12/9/15.
  */
-public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRepository {
+public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRepository, ItemRepository {
 
     public final static String DATABASE_NAME = "Question.db";
-    public final static int DATABASE_VERSION = 1;
+    public final static int DATABASE_VERSION = 11;
     private static final String COMMA_SEP = ",";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS ";
     private static final String SEMICOLON_SEP = ";";
@@ -40,14 +42,16 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     private static final String DDL_ITEM = DDL_CREATER.delete(0, DDL_CREATER.length())
         .append(CREATE_TABLE_IF_NOT_EXISTS).append(ItemContract.TABLE_NAME)
-        .append(" (").append(ItemContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+        .append(" (").append(ItemContract.ID_ITEM).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
         .append(ItemContract.ID_QUESTAO).append(" INT NOT NULL").append(COMMA_SEP)
         .append(ItemContract.DESCRICAO).append(" VARCHAR(1000) NULL").append(COMMA_SEP)
         .append(ItemContract.SITUACAO_ITEM).append(" INT NULL").append(COMMA_SEP)
-        .append(ItemContract.IMAGEM_ITEM).append(" INT NULL").append(COMMA_SEP)
-        .append(" CONSTRAINT fk_TB_ITEM_TB_QUESTAO FOREIGN KEY ").append(QuestionContract._ID)
-        .append(" REFERENCES ").append(QuestionContract.TABLE_NAME)
-        .append(" (").append(QuestionContract._ID).append("))").toString();
+            .append(ItemContract.LETRA_ITEM).append(" VARCHAR(1)").append(COMMA_SEP)
+            .append(ItemContract.NOME_IMAGEM_ITEM).append(" VARCHAR(50)").append(COMMA_SEP)
+            .append(ItemContract.NOME_IMAGEM_ITEM_SISTEMA).append(" VARCHAR(100)").append(")").toString();
+         //   .append(" CONSTRAINT fk_TB_ITEM_TB_QUESTAO FOREIGN KEY ").append(QuestionContract.ID_QUESTAO)
+       // .append(" REFERENCES ").append(QuestionContract.TABLE_NAME)
+        //.append(" (").append(QuestionContract.ID_QUESTAO).append("))").toString();
 
     private static final String DDL_QUESTAO_HABILIDADES = DDL_CREATER.delete(0, DDL_CREATER.length())
         .append(CREATE_TABLE_IF_NOT_EXISTS).append(QuestionCompetencesContract.TABLE_NAME)
@@ -103,14 +107,14 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     private static final String SQL_CREATE_ENTRIES = DDL_CREATER.delete(0, DDL_CREATER.length())
         .append(DDL_QUESTION).append(SEMICOLON_SEP)
-        .append(DDL_ITEM).append(SEMICOLON_SEP)
+        .append(DDL_ITEM).append(SEMICOLON_SEP).toString();
         /** Subject */
-        .append(DDL_COMPETENCIAS).append(SEMICOLON_SEP)
-        .append(DDL_HABILIDADES).append(SEMICOLON_SEP)
-        .append(DDL_QUESTAO_HABILIDADES).append(SEMICOLON_SEP)
-        .append(DDL_MATERIA).append(SEMICOLON_SEP)
-        .append(DDL_ASSUNTO).append(SEMICOLON_SEP)
-        .append(DDL_ASSUNTO_MATERIA).append(SEMICOLON_SEP).toString();
+       // .append(DDL_COMPETENCIAS).append(SEMICOLON_SEP)
+       // .append(DDL_HABILIDADES).append(SEMICOLON_SEP)
+      //  .append(DDL_QUESTAO_HABILIDADES).append(SEMICOLON_SEP)
+      //  .append(DDL_MATERIA).append(SEMICOLON_SEP)
+     //   .append(DDL_ASSUNTO).append(SEMICOLON_SEP)
+     //   .append(DDL_ASSUNTO_MATERIA).append(SEMICOLON_SEP).toString();
 
     private static final String SQL_DELETE_ENTRIES = DDL_CREATER.delete(0, DDL_CREATER.length())
         .append(DROP_TABLE).append(QuestionContract.TABLE_NAME).append(SEMICOLON_SEP)
@@ -123,6 +127,12 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         .append(DROP_TABLE).append(CompetencesContract.TABLE_NAME).append(SEMICOLON_SEP)
         .append(DROP_TABLE).append(SkillsContract.TABLE_NAME).append(SEMICOLON_SEP)
         .toString();
+
+    @Override
+    public <T> T save(Item item, SaveListener listener) {
+        return null;
+    }
+
 
     public static abstract class QuestionContract implements BaseColumns {
         public static final String TABLE_NAME = "TB_QUESTAO";
@@ -142,10 +152,13 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     public static abstract class ItemContract implements BaseColumns {
         public static final String TABLE_NAME = "TB_ITEM";
+        public static final String ID_ITEM = "ID_ITEM";
         public static final String ID_QUESTAO = "ID_QUESTAO";
         public static final String DESCRICAO = "DESCRICAO";
         public static final String SITUACAO_ITEM = "SITUACAO_ITEM";
-        public static final String IMAGEM_ITEM = "IMAGEM_ITEM";
+        public static final String NOME_IMAGEM_ITEM = "NOME_IMAGEM_ITEM";
+        public static final String LETRA_ITEM = "LETRA_ITEM";
+        public static final String NOME_IMAGEM_ITEM_SISTEMA = "NOME_IMAGEM_ITEM_SISTEMA";
     }
 
     /** Subject */
@@ -200,7 +213,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        //db.execSQL(SQL_CREATE_ENTRIES);
         /*db.execSQL(DDL_QUESTION);
         db.execSQL(ddlItem);
         db.execSQL(ddlCompetencias);
@@ -208,6 +221,10 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         db.execSQL(ddlAssunto);
         db.execSQL(ddlMateria);
         db.execSQL(ddlAssuntoMateria);*/
+        db.execSQL(DDL_QUESTION);
+        db.execSQL(DDL_ITEM);
+
+
     }
 
     @Override
@@ -222,6 +239,46 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         onUpgrade(db, oldVersion, newVersion);
     }
 
+
+    public void saveItem(List<Item> itens) {
+
+        ContentValues contentValues = new ContentValues();
+        try {
+            for (Item item : itens) {
+                contentValues.put(ItemContract.ID_ITEM, item.getIdItem());
+                contentValues.put(ItemContract.ID_QUESTAO, item.getIdQuestao());
+                contentValues.put(ItemContract.DESCRICAO, item.getDescricao());
+                contentValues.put(ItemContract.NOME_IMAGEM_ITEM, item.getNomeImagemItem());
+                contentValues.put(ItemContract.NOME_IMAGEM_ITEM_SISTEMA, item.getNomeImagemItemSistema());
+                contentValues.put(ItemContract.SITUACAO_ITEM, item.getSituacaoItem());
+                contentValues.put(ItemContract.LETRA_ITEM, item.getLetraItem());
+                if (verifyItemExist(item.getIdItem()) == false) {
+                    getWritableDatabase().insert(ItemContract.TABLE_NAME, null, contentValues);
+                }  else {
+                    String [] itemToUpdate = new String []{item.getIdItem().toString()};
+                    getWritableDatabase().update(ItemContract.TABLE_NAME, contentValues, ItemContract.ID_ITEM+"=?", itemToUpdate);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public boolean verifyItemExist (Integer idItem){
+
+        String sql = "SELECT ID_ITEM FROM TB_ITEM WHERE ID_ITEM = "+idItem;
+
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        Cursor c = sqLiteDatabase.rawQuery(sql, null);
+
+        if (c.moveToLast()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     public void saveQuestion(List<Question> questions) {
@@ -278,7 +335,6 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     public List<Question> getAllQuestions () {
 
-
         String sql = "SELECT ID_QUESTAO, COMANDO_QUESTAO FROM TB_QUESTAO";
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
@@ -291,11 +347,15 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
             question.setDescription(cursor.getString(1));
             questions.add(question);
         }
-
             return questions;
     }
-
 }
+
+
+
+
+
+
 
 class AsyncSave extends AsyncTask<Question, Integer, Question> {
 

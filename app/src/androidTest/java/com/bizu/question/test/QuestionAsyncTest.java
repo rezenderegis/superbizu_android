@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 import com.bizu.network.UpdateListener;
 import com.bizu.question.RepositoryOpenHelper;
-import com.bizu.question.Question;
+import com.bizu.entity.Question;
 import com.bizu.question.item.QuestionItem;
 import com.bizu.question.SaveListener;
 import com.bizu.question.service.PHPQuestionService;

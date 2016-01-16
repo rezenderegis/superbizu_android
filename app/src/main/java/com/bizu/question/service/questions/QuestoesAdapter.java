@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.bizu.R;
-import com.bizu.question.Question;
+import com.bizu.entity.Question;
 
 import java.util.List;
 

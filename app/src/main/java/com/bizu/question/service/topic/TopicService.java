@@ -1,23 +1,23 @@
-package com.bizu.question.service;
+package com.bizu.question.service.topic;
 
 import android.support.annotation.NonNull;
 
+import com.bizu.entity.Topic;
+import com.bizu.entity.TopicQuestion;
 import com.bizu.network.UpdateListener;
-import com.bizu.entity.Question;
-import com.bizu.question.QuestionRepository;
 
 import java.util.List;
 
 /**
  * Created by andre.lmello on 11/25/15.
  */
-public interface QuestionService {
+public interface TopicService {
     /**
      * Updates the question information based on backend up to date data. May be asynchronous operation.
      * @param questionToUpdate
      * @throws NullPointerException
      */
-    <T> T update(@NonNull final Question questionToUpdate, final UpdateListener<Question> listener)
+    <T> T update(@NonNull final Topic forUpdate, final UpdateListener<Topic> listener)
             throws NullPointerException;
 
     /**
@@ -28,5 +28,5 @@ public interface QuestionService {
      * @param <T> possible third party framework or AsyncTask return.
      * @return as for {@link T}
      */
-    <T> T updateFromServer(final QuestionRepository repository, final UpdateListener<List<Question>> listener);
+    <T> T updateFromServer(final TopicRepository repository, final UpdateListener<List<Topic>> listener);
 }

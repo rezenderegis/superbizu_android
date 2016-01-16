@@ -1,9 +1,11 @@
-package com.bizu.question;
+package com.bizu.entity;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.bizu.network.UpdateListener;
+import com.bizu.question.QuestionRepository;
+import com.bizu.question.SaveListener;
 import com.bizu.question.item.QuestionItem;
 import com.bizu.question.service.QuestionService;
 import com.google.gson.annotations.SerializedName;

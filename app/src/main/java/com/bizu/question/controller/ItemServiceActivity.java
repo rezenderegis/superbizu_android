@@ -2,27 +2,16 @@ package com.bizu.question.controller;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.bizu.network.UpdateListener;
-import com.bizu.question.Item;
-import com.bizu.question.Question;
+import com.bizu.entity.Item;
 import com.bizu.question.RepositoryOpenHelper;
-import com.bizu.question.service.PHPQuestionService;
 import com.bizu.question.service.download.MainActivity;
-import com.bizu.question.service.item.ItemRepository;
-import com.bizu.question.service.item.ItemService;
 import com.bizu.question.service.item.PHPItemService;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

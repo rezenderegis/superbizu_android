@@ -1,6 +1,6 @@
 package com.bizu.network;
 
-import com.bizu.question.Question;
+import com.bizu.entity.Question;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;

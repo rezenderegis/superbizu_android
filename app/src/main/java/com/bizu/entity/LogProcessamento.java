@@ -1,4 +1,4 @@
-package com.bizu.question;
+package com.bizu.entity;
 
 import java.util.Date;
 

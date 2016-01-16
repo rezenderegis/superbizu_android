@@ -8,11 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bizu.R;
-import com.bizu.question.Question;
+import com.bizu.entity.Question;
 import com.bizu.question.RepositoryOpenHelper;
 import com.bizu.question.service.questions.QuestoesAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

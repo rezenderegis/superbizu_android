@@ -10,7 +10,7 @@ import com.bizu.network.ClassDeserializeStrategy;
 import com.bizu.network.GsonRequest;
 import com.bizu.network.ListTypeTokenDeserializeStrategy;
 import com.bizu.network.UpdateListener;
-import com.bizu.question.Question;
+import com.bizu.entity.Question;
 import com.bizu.question.QuestionRepository;
 
 import java.util.List;

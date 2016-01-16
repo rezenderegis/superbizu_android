@@ -8,7 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.provider.BaseColumns;
 
+import com.bizu.entity.Item;
+import com.bizu.entity.Question;
+import com.bizu.entity.Matter;
+import com.bizu.entity.Topic;
+import com.bizu.entity.TopicQuestion;
+import com.bizu.question.service.TopicQuestion.TopicQuestionRepository;
 import com.bizu.question.service.item.ItemRepository;
+import com.bizu.question.service.matter.MatterRepository;
+import com.bizu.question.service.topic.TopicRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,10 +25,11 @@ import java.util.List;
 /**
  * Created by andre.lmello on 12/9/15.
  */
-public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRepository, ItemRepository {
+
+public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRepository, ItemRepository, MatterRepository, TopicQuestionRepository, TopicRepository {
 
     public final static String DATABASE_NAME = "Question.db";
-    public final static int DATABASE_VERSION = 15;
+    public final static int DATABASE_VERSION = 22;
     private static final String COMMA_SEP = ",";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS ";
     private static final String SEMICOLON_SEP = ";";
@@ -94,28 +103,28 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     private static final String DDL_MATERIA = DDL_CREATER.delete(0, DDL_CREATER.length())
             .append(CREATE_TABLE_IF_NOT_EXISTS).append(SubjectContract.TABLE_NAME)
-            .append(" (").append(SubjectContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(" (").append(SubjectContract.ID_MATERIA).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
             .append(SubjectContract.NOME_MATERIA).append(" VARCHAR(100) NULL").append(")").toString();
 
     private static final String DDL_ASSUNTO = DDL_CREATER.delete(0, DDL_CREATER.length())
             .append(CREATE_TABLE_IF_NOT_EXISTS).append(TopicContract.TABLE_NAME)
-            .append(" (").append(TopicContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
+            .append(" (").append(TopicContract.ID_ASSUNTO).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
             .append(TopicContract.DESCRICAO_ASSUNTO).append(" VARCHAR(2000) NULL").append(COMMA_SEP)
-            .append(TopicContract.ID_MATERIA).append(" INT NOT NULL").append(COMMA_SEP)
-            .append("FOREIGN KEY (").append(TopicContract.ID_MATERIA).append(") REFERENCES ")
-            .append(SubjectContract.TABLE_NAME).append("(").append(SubjectContract._ID).append("))")
-            .toString();
+            .append(TopicContract.ID_ASSUNTO_PAI).append(" INT NOT NULL").append(COMMA_SEP)
+            .append(TopicContract.ID_MATERIA).append(" INT NOT NULL").append(")").toString();
+           // .append("FOREIGN KEY (").append(TopicContract.ID_MATERIA_TOPIC).append(") REFERENCES ")
+           // .append(SubjectContract.TABLE_NAME).append("(").append(SubjectContract._ID).append("))")
+           // .toString();
 
-    private static final String DDL_ASSUNTO_MATERIA = DDL_CREATER.delete(0, DDL_CREATER.length())
-            .append(CREATE_TABLE_IF_NOT_EXISTS).append(TopicSubjectContract.TABLE_NAME)
-            .append(" (").append(TopicSubjectContract._ID).append(" INTEGER PRIMARY KEY").append(COMMA_SEP)
-            .append(TopicSubjectContract.TB_ASSUNTO_ID_ITEM).append(" INT NOT NULL").append(COMMA_SEP)
-            .append(TopicSubjectContract.TB_QUESTAO_ID_QUESTAO).append(" INT NOT NULL").append(COMMA_SEP)
-            .append("CONSTRAINT fk_TB_ASSUNTO_MATERIA_TB_ASSUNTO1 ").append(" FOREIGN KEY (")
-            .append(TopicSubjectContract.TB_ASSUNTO_ID_ITEM).append(") ")
-            .append("REFERENCES ").append(TopicContract.TABLE_NAME).append("(")
-            .append(TopicContract._ID).append(")")
-            .append(" ON DELETE NO ACTION ON UPDATE NO ACTION").append(")").toString();
+    private static final String DDL_ASSUNTO_QUESTAO = DDL_CREATER.delete(0, DDL_CREATER.length())
+            .append(CREATE_TABLE_IF_NOT_EXISTS).append(TopicQuestionContract.TABLE_NAME)
+            .append("(").append(TopicQuestionContract.ID_ASSUNTO).append(" INT NOT NULL").append(COMMA_SEP)
+            .append(TopicQuestionContract.ID_QUESTAO).append(" INT NOT NULL").append(")").toString();
+          //  .append("CONSTRAINT fk_TB_ASSUNTO_MATERIA_TB_ASSUNTO1 ").append(" FOREIGN KEY (")
+          //  .append(TopicSubjectContract.TB_ASSUNTO_ID_ITEM).append(") ")
+          //  .append("REFERENCES ").append(TopicContract.TABLE_NAME).append("(")
+          //  .append(TopicContract._ID).append(")")
+         //   .append(" ON DELETE NO ACTION ON UPDATE NO ACTION").append(")").toString();
 
     private static final String SQL_CREATE_ENTRIES = DDL_CREATER.delete(0, DDL_CREATER.length())
             .append(DDL_QUESTION).append(SEMICOLON_SEP)
@@ -135,7 +144,7 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
             .append(DROP_TABLE).append(QuestionContract.TABLE_NAME).append(SEMICOLON_SEP)
             .append(DROP_TABLE).append(ItemContract.TABLE_NAME).append(SEMICOLON_SEP)
                     /** Subject */
-            .append(DROP_TABLE).append(TopicSubjectContract.TABLE_NAME).append(SEMICOLON_SEP)
+            .append(DROP_TABLE).append(TopicQuestionContract.TABLE_NAME).append(SEMICOLON_SEP)
             .append(DROP_TABLE).append(TopicContract.TABLE_NAME).append(SEMICOLON_SEP)
             .append(DROP_TABLE).append(SubjectContract.TABLE_NAME).append(SEMICOLON_SEP)
             .append(DROP_TABLE).append(QuestionCompetencesContract.TABLE_NAME).append(SEMICOLON_SEP)
@@ -145,6 +154,21 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     @Override
     public <T> T save(Item item, SaveListener listener) {
+        return null;
+    }
+
+    @Override
+    public <T> T save(Matter matter, SaveListener listener) {
+        return null;
+    }
+
+    @Override
+    public <T> T save(TopicQuestion topicQuestion, SaveListener listener) {
+        return null;
+    }
+
+    @Override
+    public <T> T save(Topic topic, SaveListener listener) {
         return null;
     }
 
@@ -182,18 +206,21 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
     public static abstract class SubjectContract implements BaseColumns {
         public static final String TABLE_NAME = "TB_MATERIA";
         public static final String NOME_MATERIA = "NOME_MATERIA";
+        public static final String ID_MATERIA = "ID_MATERIA";
     }
 
     public static abstract class TopicContract implements BaseColumns {
         public static final String TABLE_NAME = "TB_ASSUNTO";
+        public static final String ID_ASSUNTO = "ID_ASSUNTO";
         public static final String DESCRICAO_ASSUNTO = "DESCRICAO_ASSUNTO";
         public static final String ID_MATERIA = "ID_MATERIA";
+        public static final String ID_ASSUNTO_PAI = "ID_ASSUNTO_PAI";
     }
 
-    public static abstract class TopicSubjectContract implements BaseColumns {
-        public static final String TABLE_NAME = "TB_ASSUNTO_MATERIA";
-        public static final String TB_ASSUNTO_ID_ITEM = "TB_ASSUNTO_ID_ITEM";
-        public static final String TB_QUESTAO_ID_QUESTAO = "TB_QUESTAO_ID_QUESTAO";
+    public static abstract class TopicQuestionContract implements BaseColumns {
+        public static final String TABLE_NAME = "TB_ASSUNTO_QUESTAO";
+        public static final String ID_ASSUNTO = "ID_ASSUNTO";
+        public static final String ID_QUESTAO = "ID_QUESTAO";
     }
 
     public static abstract class QuestionCompetencesContract implements BaseColumns {
@@ -254,6 +281,9 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         db.execSQL(DDL_QUESTION);
         db.execSQL(DDL_ITEM);
         db.execSQL(DD_LOG_PROCESSAMENTO);
+        db.execSQL(DDL_MATERIA);
+        db.execSQL(DDL_ASSUNTO_QUESTAO);
+        db.execSQL(DDL_ASSUNTO);
 
 
 
@@ -271,6 +301,28 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    public void saveMatter(List<Matter> matters) {
+
+        ContentValues contentValues = new ContentValues();
+
+        try {
+            for (Matter matter : matters) {
+                contentValues.put(SubjectContract.NOME_MATERIA, matter.getNomeMateria());
+                contentValues.put(SubjectContract.ID_MATERIA, matter.getIdMateria());
+
+                if (verifyMatterExist(matter.getIdMateria()) == false) {
+                    getWritableDatabase().insert(SubjectContract.TABLE_NAME, null, contentValues);
+                } else {
+                    String [] matterToUpdate = new String[] {matter.getIdMateria().toString()};
+                    getWritableDatabase().update(SubjectContract.TABLE_NAME,contentValues, SubjectContract.ID_MATERIA+"=?", matterToUpdate);
+                }
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void saveItem(List<Item> itens) {
 
@@ -326,6 +378,69 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         }
     }
 
+
+
+    /*
+    * Fabricio:  Esse método atualiza a tabela TopicQuestion com base na chave idQuestao.
+     * A questão pode possuir mais de um assunto, mas atualmente só gravamos um assunto por questão, inclusive
+     * defini uma chave primária na tabela do servidor. Quando quisermos colocar mais de um assunto nessa tabela
+     * teremos que remover a chave.
+    *
+    * */
+    public void saveTopicQuestion(List<TopicQuestion> topicQuestions) {
+
+        ContentValues contentValues = new ContentValues();
+
+        try {
+
+            for (TopicQuestion topicQuestion : topicQuestions) {
+
+                contentValues.put(TopicQuestionContract.ID_ASSUNTO, topicQuestion.getIdAssunto());
+                contentValues.put(TopicQuestionContract.ID_QUESTAO, topicQuestion.getIdQuestao());
+
+                if (verifyTopicQuestion(topicQuestion.getIdQuestao()) == false) {
+                    getWritableDatabase().insert(TopicQuestionContract.TABLE_NAME, null, contentValues);
+                } else {
+                    String [] topicQuestionForUpdate = new String[] {topicQuestion.getIdAssunto().toString()};
+                    getWritableDatabase().update(TopicQuestionContract.TABLE_NAME, contentValues, TopicQuestionContract.ID_QUESTAO+"=?", topicQuestionForUpdate);
+                }
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveTopic(List<Topic> topics) {
+
+        ContentValues contentValues = new ContentValues();
+
+        try{
+
+            for (Topic topic : topics) {
+
+                contentValues.put(TopicContract.ID_ASSUNTO, topic.getIdAssunto());
+                contentValues.put(TopicContract.DESCRICAO_ASSUNTO, topic.getDescricaoAssunto());
+                contentValues.put(TopicContract.ID_ASSUNTO_PAI, topic.getIdAssuntoPai());
+                contentValues.put(TopicContract.ID_MATERIA, topic.getIdMateria());
+                SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+                if (verifyTopic(topic.getIdAssunto()) == false) {
+
+                    sqLiteDatabase.insert(TopicContract.TABLE_NAME, null, contentValues);
+
+                } else {
+                    String [] topicUpdate = new String [] {topic.getIdAssunto().toString()};
+                    sqLiteDatabase.update(TopicContract.TABLE_NAME,contentValues,TopicQuestionContract.ID_QUESTAO + "=?", topicUpdate);
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void saveQuestion(List<Question> questions) {
 
@@ -392,6 +507,50 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
 
     }
 
+    public boolean verifyTopic (Integer idTopic) {
+
+        String sql = "SELECT ID_ASSUNTO FROM TB_ASSUNTO WHERE ID_ASSUNTO = "+idTopic;
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        Cursor c = sqLiteDatabase.rawQuery(sql, null);
+
+        if (c.moveToLast()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean verifyTopicQuestion(Integer idQuestion) {
+
+        String sql = "SELECT ID_QUESTAO FROM TB_ASSUNTO_QUESTAO WHERE ID_QUESTAO = "+idQuestion;
+
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        Cursor c = sqLiteDatabase.rawQuery(sql, null);
+
+        if (c.moveToLast()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean verifyMatterExist(Integer idMatter) {
+
+        String sql = "SELECT ID_MATERIA FROM TB_MATERIA WHERE ID_MATERIA = "+idMatter;
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        Cursor c = sqLiteDatabase.rawQuery(sql, null);
+        if (c.moveToLast()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public boolean verifyQuestionExist(Long idQuestion) {
 
         String sql = "SELECT ID_QUESTAO FROM TB_QUESTAO WHERE ID_QUESTAO = " + idQuestion;
@@ -441,6 +600,19 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         return itens;
 
     }
+
+
+    public List<Matter> getAllMatters() {
+        String sql = "SELECT NOME_MATERIA FROM TB_MATERIA";
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        Cursor c = sqLiteDatabase.rawQuery(sql, null);
+        ArrayList<Matter> matters = new ArrayList<Matter>();
+        while (c.moveToNext()) {
+            Matter matter = new Matter();
+            matter.setNomeMateria(c.getString(0));
+        }
+        return matters;
+    }
     /*
     * Método utilizando enquanto estivermos fazendo testes no app
     *
@@ -451,16 +623,20 @@ public class RepositoryOpenHelper extends SQLiteOpenHelper implements QuestionRe
         String deleteQuestion = "DELETE FROM TB_QUESTAO";
 
         String deleteItem = "DELETE FROM TB_ITEM";
+        String deleteAssuntoQuestao = "DELETE FROM TB_ASSUNTO_QUESTAO";
+        String deleteMateria = "DELETE FROM TB_MATERIA";
 
-       // String deleteSequenceQuestion = "DELETE FROM SQLITE_SEQUENCE WHERE NAME  = 'TB_QUESTAO'";
+
+        //db.execSQL(DD_LOG_PROCESSAMENTO);
+        // String deleteSequenceQuestion = "DELETE FROM SQLITE_SEQUENCE WHERE NAME  = 'TB_QUESTAO'";
        /// String deleteSequenceiTEM = "DELETE FROM SQLITE_SEQUENCE WHERE NAME  = 'TB_ITEM'";
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         db.execSQL(deleteQuestion);
         db.execSQL(deleteItem);
-      //  db.execSQL(deleteSequenceQuestion);
-       // db.execSQL(deleteSequenceiTEM);
+        db.execSQL(deleteAssuntoQuestao);
+        db.execSQL(deleteMateria);
 
 
     }

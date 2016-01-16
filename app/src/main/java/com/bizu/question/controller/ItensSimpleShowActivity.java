@@ -3,14 +3,11 @@ package com.bizu.question.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.view.ContextMenu;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.bizu.R;
-import com.bizu.question.Item;
+import com.bizu.entity.Item;
 import com.bizu.question.RepositoryOpenHelper;
 
 import java.util.List;

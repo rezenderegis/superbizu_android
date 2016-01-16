@@ -1,4 +1,4 @@
-package com.bizu.question.service.item;
+package com.bizu.question.service.matter;
 
 import android.support.annotation.NonNull;
 
@@ -8,7 +8,7 @@ import com.bizu.network.ClassDeserializeStrategy;
 import com.bizu.network.GsonRequest;
 import com.bizu.network.ListTypeTokenDeserializeStrategy;
 import com.bizu.network.UpdateListener;
-import com.bizu.entity.Item;
+import com.bizu.entity.Matter;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import java.util.List;
  *
  * Created by fabricio on 1/16/16.
  */
-public class PHPItemService implements ItemService {
+public class PHPMatterService implements MatterService {
 
     //    private static final String ENDERECO = "http://mysale2.hospedagemdesites.ws/mysale/app/teste.php";
     //private static final String ENDERECO = "http://10.0.3.2:1080/mysale/app/teste.php";
     //private static final String ENDERECO = "http://10.0.3.2/bizu/app/teste.php";
-    private static final String ENDERECO = "http://www.bizu.educacao.ws/app/busca_itens_questao.php";
+    private static final String ENDERECO = "http://www.bizu.educacao.ws/app/buscar_materias.php";
 
 //    private static final String ENDERECO = "http://bizu.educacao.ws/app/teste.php";
     // public String ENDERECO = "http://10.0.3.2/mysale/app/teste.php";
@@ -29,25 +29,25 @@ public class PHPItemService implements ItemService {
      *
      * @param requestQueue to schedule tasks.
      */
-    public PHPItemService(final RequestQueue requestQueue) {
+    public PHPMatterService(final RequestQueue requestQueue) {
         mRequestQueue = requestQueue;
     }
 
-    public Request<Item> update(@NonNull Item questionToUpdate, final UpdateListener listener)
+    public Request<Matter> update(@NonNull Matter matterToUpdate, final UpdateListener listener)
             throws NullPointerException {
-        if (questionToUpdate == null)
+        if (matterToUpdate == null)
             throw new IllegalArgumentException("questionToUpdate cannot be null, neither queueStrategy");
-        final ServiceListenerItem volleyListener = new ServiceListenerItem(listener);
-        final Request<Item> volleyRequest = new GsonRequest<>(ENDERECO, new ClassDeserializeStrategy<>(Item.class)
+        final ServiceListenerMatter volleyListener = new ServiceListenerMatter(listener);
+        final Request<Matter> volleyRequest = new GsonRequest<>(ENDERECO, new ClassDeserializeStrategy<>(Matter.class)
                 , null, volleyListener, volleyListener);
         return mRequestQueue.add(volleyRequest);
     }
 
-    public Request<List<Item>> updateFromServer(ItemRepository repository
+    public Request<List<Matter>> updateFromServer(MatterRepository repository
             , UpdateListener listener) {
-        final ServiceListenerItem<List<Item>> volleyListener = new ServiceListenerItem<>(listener);
-        final Request<List<Item>> volleyRequest = new GsonRequest<>(ENDERECO
-                , new ListTypeTokenDeserializeStrategy<Item>(Item.class)
+        final ServiceListenerMatter<List<Matter>> volleyListener = new ServiceListenerMatter<>(listener);
+        final Request<List<Matter>> volleyRequest = new GsonRequest<>(ENDERECO
+                , new ListTypeTokenDeserializeStrategy<Matter>(Matter.class)
                 , null, volleyListener, volleyListener);
         return mRequestQueue.add(volleyRequest);
     }

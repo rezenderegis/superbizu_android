@@ -1,10 +1,10 @@
 package com.bizu.question.service.item;
 
-import com.bizu.question.Item;
+import com.bizu.entity.Item;
 import com.bizu.question.SaveListener;
 
 /**
- * Created by andre.lmello on 12/9/15.
+ * Created by fabricio on 1/16/16.
  */
 public interface ItemRepository {
 

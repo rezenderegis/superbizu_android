@@ -3,12 +3,12 @@ package com.bizu.question.service.item;
 import android.support.annotation.NonNull;
 
 import com.bizu.network.UpdateListener;
-import com.bizu.question.Item;
+import com.bizu.entity.Item;
 
 import java.util.List;
 
 /**
- * Created by andre.lmello on 11/25/15.
+ * Created by fabricio on 1/16/16.
  */
 public interface ItemService {
     /**

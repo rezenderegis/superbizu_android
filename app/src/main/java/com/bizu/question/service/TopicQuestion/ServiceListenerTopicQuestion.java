@@ -1,14 +1,14 @@
-package com.bizu.question.service.item;
+package com.bizu.question.service.TopicQuestion;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bizu.network.UpdateListener;
 
-class ServiceListenerItem<T> implements Response.Listener<T>, Response.ErrorListener {
+class ServiceListenerTopicQuestion<T> implements Response.Listener<T>, Response.ErrorListener {
 
     private final UpdateListener<T> mListener;
 
-    public ServiceListenerItem(final UpdateListener<T> listener) {
+    public ServiceListenerTopicQuestion(final UpdateListener<T> listener) {
         mListener = listener;
     }
 

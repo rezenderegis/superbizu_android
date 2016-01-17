@@ -75,7 +75,7 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
         if (position == 0) {
             holder.getLineText().setText(mQuestion.getDescription());
         } else if (position == 1) {
-            holder.getLineText().setText(mQuestion.getComando_questao());
+            holder.getLineText().setText(mQuestion.getComandoQuestao());
         } else if (position >= 2 && position <= 6) {
             /** menos 2, pois já inicia o position em 2 para os itens */
             holder.getLineText().setText(mQuestion.getItems().get(position - 2).getDescricao());

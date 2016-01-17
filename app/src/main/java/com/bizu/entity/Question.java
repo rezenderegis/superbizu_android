@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import com.bizu.android.database.SaveListener;
 import com.bizu.question.QuestionRepository;
 import com.bizu.question.item.Item;
-import com.bizu.question.item.QuestionItem;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class Question implements Parcelable {
     private Integer mQuestionNumber;
 
     @SerializedName("COMANDO_QUESTAO")
-    private String comando_questao;
+    private String comandoQuestao;
 
     @SerializedName("PROVA")
     private Integer prova;
@@ -73,6 +72,7 @@ public class Question implements Parcelable {
 
     public Question (final Parcel in) {
         mDescription = in.readString();
+        comandoQuestao = in.readString();
         mItems = new ArrayList<>();
         in.readList(mItems, Item.class.getClassLoader());
     }
@@ -155,12 +155,12 @@ public class Question implements Parcelable {
         this.mDescription = description;
     }
 
-    public String getComando_questao() {
-        return comando_questao;
+    public String getComandoQuestao() {
+        return comandoQuestao;
     }
 
-    public void setComando_questao(String comando_questao) {
-        this.comando_questao = comando_questao;
+    public void setComandoQuestao(final String comandoQuestao) {
+        this.comandoQuestao = comandoQuestao;
     }
 
     public Integer getProva() {
@@ -230,6 +230,7 @@ public class Question implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mDescription);
+        dest.writeString(comandoQuestao);
         dest.writeList(getItems());
     }
 }

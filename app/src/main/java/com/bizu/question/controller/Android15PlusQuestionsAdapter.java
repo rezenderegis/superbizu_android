@@ -69,7 +69,7 @@ public class Android15PlusQuestionsAdapter extends RecyclerView.Adapter<Android1
         if (position == 0) {
             holder.getLineText().setText(mQuestion.getDescription());
         } else if (position == 1) {
-            holder.getLineText().setText(mQuestion.getComando_questao());
+            holder.getLineText().setText(mQuestion.getComandoQuestao());
         } else if (position >= 2 && position <= 6) {
             /** menos 2, pois já inicia o position em 2 para os itens */
             holder.getLineText().setText(mQuestion.getItems().get(position - 2).getDescricao());
@@ -135,16 +135,16 @@ public class Android15PlusQuestionsAdapter extends RecyclerView.Adapter<Android1
                             public void onClick(View v) {
                                 if (!isAnimating) {
                                     if (holder.getView().getHeight()
-                                            == DimensionUtilities.densityPixelToPixel(200, v.getContext())) {
+                                            == viewHeightPx + DimensionUtilities.densityPixelToPixel(20, v.getContext())) {
                                         final AnimatorSet collapseEveryThing = new AnimatorSet();
                                         final ValueAnimator collapseItem = ValueAnimator.ofObject(new FloatEvaluator(),
-                                                DimensionUtilities.densityPixelToPixel(200, v.getContext()),
-                                                DimensionUtilities.densityPixelToPixel(72, v.getContext()));
+                                                viewHeightPx + DimensionUtilities.densityPixelToPixel(20, v.getContext())
+                                                , DimensionUtilities.densityPixelToPixel(72, v.getContext()));
                                         collapseItem.addUpdateListener(new ExpandAnimatorListener(holder.getView()));
 
                                         final ValueAnimator collapseText = ValueAnimator.ofObject(new FloatEvaluator(),
-                                                DimensionUtilities.densityPixelToPixel(111, v.getContext()),
-                                                DimensionUtilities.densityPixelToPixel(40, v.getContext()));
+                                                viewHeightPx + DimensionUtilities.densityPixelToPixel(10, v.getContext())
+                                                , DimensionUtilities.densityPixelToPixel(40, v.getContext()));
                                         collapseText.addUpdateListener(
                                                 new ExpandAnimatorListener(holder.getLineText()));
 
@@ -162,8 +162,8 @@ public class Android15PlusQuestionsAdapter extends RecyclerView.Adapter<Android1
                                     } else {
                                         final AnimatorSet expandEveryThing = new AnimatorSet();
                                         final ValueAnimator expandItem = ValueAnimator.ofObject(new FloatEvaluator(),
-                                                DimensionUtilities.densityPixelToPixel(72, v.getContext()),
-                                                DimensionUtilities.densityPixelToPixel(200, v.getContext()));
+                                                DimensionUtilities.densityPixelToPixel(72, v.getContext())
+                                                , viewHeightPx + DimensionUtilities.densityPixelToPixel(20, v.getContext()));
                                         expandItem.addUpdateListener(new ExpandAnimatorListener(holder.getView()));
 
                                         final ValueAnimator rotateIndicator =
@@ -174,7 +174,7 @@ public class Android15PlusQuestionsAdapter extends RecyclerView.Adapter<Android1
 
                                         final ValueAnimator expandText = ValueAnimator.ofObject(new FloatEvaluator(),
                                                 DimensionUtilities.densityPixelToPixel(40, v.getContext()),
-                                                DimensionUtilities.densityPixelToPixel(111, v.getContext()));
+                                                viewHeightPx + DimensionUtilities.densityPixelToPixel(10, v.getContext()));
                                         expandText.addUpdateListener(
                                                 new ExpandAnimatorListener(holder.getLineText()));
 

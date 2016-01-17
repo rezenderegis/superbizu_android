@@ -81,7 +81,7 @@ public class Android15PlusQuestionsAdapter extends RecyclerView.Adapter<Android1
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return 1 + mQuestion.getItems().size();
+        return 2 + mQuestion.getItems().size();
     }
 
     class ExpandCollapseAnimatorListener implements Animator.AnimatorListener {

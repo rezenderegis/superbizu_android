@@ -1,5 +1,8 @@
 package com.bizu.question.item;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -7,7 +10,19 @@ import java.io.Serializable;
 /**
  * Created by fabricio on 1/11/16.
  */
-public class Item implements Serializable {
+public class Item implements Serializable, Parcelable {
+
+    public static final Parcelable.Creator<Item> CREATOR
+            = new Parcelable.Creator<Item>() {
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
+
 
     @SerializedName("ID_QUESTAO")
     private Integer idQuestao;
@@ -29,6 +44,14 @@ public class Item implements Serializable {
 
     @SerializedName("LETRA_ITEM")
     private String letraItem;
+
+    public Item () {
+
+    }
+
+    public Item(final Parcel in) {
+        descricao = in.readString();
+    }
 
     public String getNomeImagemItem() {
         return nomeImagemItem;
@@ -117,5 +140,15 @@ public class Item implements Serializable {
         } else if (!idItem.equals(other.idItem))
             return false;
         return true;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(descricao);
     }
 }

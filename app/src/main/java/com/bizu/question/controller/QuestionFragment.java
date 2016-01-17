@@ -11,12 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bizu.R;
+import com.bizu.entity.Question;
 import com.bizu.question.option.controller.OnQuestionOptionClickedListener;
 
 /**
  * Created by andre.lmello on 11/1/15.
  */
 public class QuestionFragment extends Fragment {
+
+    public static final String PARAMETER_QUESTION = "com.bizu.QuestionFragment.QUESTION";
+
+    public QuestionFragment (final Bundle bundle) {
+        setArguments(bundle);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,14 +45,13 @@ public class QuestionFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         RecyclerView.Adapter adapter = null;
-        final String[] stringArray =  getResources().getStringArray(R.array.test_array);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            adapter = new Android15LessQuestionsAdapter(stringArray, recyclerView,
-                    new OnQuestionOptionClickedListener(getFragmentManager()),
+            adapter = new Android15LessQuestionsAdapter((Question)getArguments().getParcelable(PARAMETER_QUESTION)
+                    , recyclerView, new OnQuestionOptionClickedListener(getFragmentManager()),
                     getActivity().getResources(), getActivity().getTheme());
-        }/* else {
-            adapter = new Android15PlusQuestionsAdapter(stringArray);
-        }*/
+        } else {
+            adapter = new Android15PlusQuestionsAdapter((Question)getArguments().getParcelable(PARAMETER_QUESTION));
+        }
         recyclerView.setAdapter(adapter);
 
         return recyclerView;

@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.bizu.R;
 import com.bizu.controller.AbstractViewHolder;
+import com.bizu.entity.Question;
 import com.bizu.question.option.controller.OnQuestionOptionClickedListener;
 import com.bizu.util.view.DimensionUtilities;
 /**
@@ -45,10 +45,10 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public Android15LessQuestionsAdapter(final String[] myDataset, final RecyclerView recyclerView,
+    public Android15LessQuestionsAdapter(final Question myDataset, final RecyclerView recyclerView,
                                          final OnQuestionOptionClickedListener listener,
                                          final Resources resources, final Resources.Theme theme) {
-        mDataset = myDataset;
+        mQuestion = myDataset;
         mFTListener = listener;
         mResources = resources;
         mTheme = theme;
@@ -72,7 +72,14 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.getLineText().setText(mDataset[position]);
+        if (position == 0) {
+            holder.getLineText().setText(mQuestion.getDescription());
+        } else if (position == 1) {
+            holder.getLineText().setText(mQuestion.getComando_questao());
+        } else if (position >= 2 && position <= 6) {
+            /** menos 2, pois já inicia o position em 2 para os itens */
+            holder.getLineText().setText(mQuestion.getItems().get(position - 2).getDescricao());
+        }
         holder.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new MyOnGlobalLayoutListener(holder));
     }
@@ -80,7 +87,7 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return 1 + mQuestion.getItems().size();
     }
 
     class ExpandCollapseAnimatorListener implements Animator.AnimatorListener {
@@ -106,7 +113,7 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
         }
     }
 
-    private String[] mDataset;
+    private Question mQuestion;
     private boolean isAnimating = false;
     private final OnQuestionOptionClickedListener mFTListener;
     private final Resources mResources;
@@ -133,7 +140,6 @@ public class Android15LessQuestionsAdapter extends RecyclerView.Adapter<Android1
 
             if (viewHeightDp > 48 && holder.getAdapterPosition() <= 0) {
                 ibExpandButton.setVisibility(View.VISIBLE);
-                //FIXME: descobrir como que o IB propaga o evento de click (ACTION_UP)
                 listener =
                         new View.OnClickListener() {
                             @Override

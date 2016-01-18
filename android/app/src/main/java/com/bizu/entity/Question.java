@@ -1,11 +1,13 @@
 package com.bizu.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.bizu.question.QuestionRepository;
 import com.bizu.android.database.SaveListener;
-import com.bizu.question.item.QuestionItem;
+import com.bizu.question.QuestionRepository;
+import com.bizu.question.item.Item;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -16,7 +18,19 @@ import java.util.List;
  * version control.
  * Created by andre.lmello on 11/25/15.
  */
-public class Question {
+public class Question implements Parcelable {
+
+    public static final Parcelable.Creator<Question> CREATOR
+            = new Parcelable.Creator<Question>() {
+        public Question createFromParcel(Parcel in) {
+            return new Question(in);
+        }
+
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+    };
+
 
     @SerializedName("ID_QUESTAO")
     private Long mId;
@@ -31,7 +45,7 @@ public class Question {
     private Integer mQuestionNumber;
 
     @SerializedName("COMANDO_QUESTAO")
-    private String comando_questao;
+    private String comandoQuestao;
 
     @SerializedName("PROVA")
     private Integer prova;
@@ -54,7 +68,14 @@ public class Question {
     @SerializedName("APLICACAO")
     private Integer aplicacao;
 
-    private final List<QuestionItem> mItems;
+    private List<Item> mItems;
+
+    public Question (final Parcel in) {
+        mDescription = in.readString();
+        comandoQuestao = in.readString();
+        mItems = new ArrayList<>();
+        in.readList(mItems, Item.class.getClassLoader());
+    }
 
     /**
      *
@@ -62,7 +83,7 @@ public class Question {
      * @param description
      * @param items
      */
-    public Question(@Nullable final Long id, @NonNull final String description, @NonNull final List<QuestionItem> items) {
+    public Question(@Nullable final Long id, @NonNull final String description, @NonNull final List<Item> items) {
         mId = id;
         mDescription = description;
         mItems = items;
@@ -73,7 +94,7 @@ public class Question {
      * @param name
      * @param items
      */
-    public Question(final String name, final List<QuestionItem> items) {
+    public Question(final String name, final List<Item> items) {
         this(null, name, items);
     }
 
@@ -134,12 +155,12 @@ public class Question {
         this.mDescription = description;
     }
 
-    public String getComando_questao() {
-        return comando_questao;
+    public String getComandoQuestao() {
+        return comandoQuestao;
     }
 
-    public void setComando_questao(String comando_questao) {
-        this.comando_questao = comando_questao;
+    public void setComandoQuestao(final String comandoQuestao) {
+        this.comandoQuestao = comandoQuestao;
     }
 
     public Integer getProva() {
@@ -164,6 +185,14 @@ public class Question {
 
     public void setImagem_questao(String imagem_questao) {
         this.imagem_questao = imagem_questao;
+    }
+
+    public List<Item> getItems () {
+        return mItems;
+    }
+
+    public void setItems(final List<Item> items) {
+        mItems = items;
     }
 
     public Question() {
@@ -191,5 +220,17 @@ public class Question {
 
     public void setId(final Long id) {
         this.mId = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mDescription);
+        dest.writeString(comandoQuestao);
+        dest.writeList(getItems());
     }
 }

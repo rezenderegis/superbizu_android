@@ -107,7 +107,7 @@ class AsyncQuestionSave extends AsyncTask<List<Question>, Integer, AsyncResult<L
                 contentValues.put(RepositoryOpenHelper.QuestionContract.DESCRICAO_QUESTAO, question.getDescription());
                 contentValues.put(RepositoryOpenHelper.QuestionContract.ANO_QUESTAO, question.getQuestionYear());
                 contentValues.put(RepositoryOpenHelper.QuestionContract.NUMERO_QUESTAO, question.getQuestionNumber());
-                contentValues.put(RepositoryOpenHelper.QuestionContract.COMANDO_QUESTAO, question.getComando_questao());
+                contentValues.put(RepositoryOpenHelper.QuestionContract.COMANDO_QUESTAO, question.getComandoQuestao());
                 contentValues.put(RepositoryOpenHelper.QuestionContract.PROVA, question.getProva());
                 contentValues.put(RepositoryOpenHelper.QuestionContract.SITUACAO_QUESTAO, question.getSituacao_questao());
                 contentValues.put(RepositoryOpenHelper.QuestionContract.IMAGEM_QUESTAO, question.getImagem_questao());

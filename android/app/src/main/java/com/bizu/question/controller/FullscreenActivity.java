@@ -10,12 +10,16 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.bizu.R;
+import com.bizu.entity.Question;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
+
+    public static final String PARAMETER_QUESTION = "com.bizu.question.QUESTION";
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -41,13 +45,20 @@ public class FullscreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final Question question = (Question) getIntent().getExtras().get(PARAMETER_QUESTION);
+
+        if (question == null | question.getItems().size() <= 0) throw new RuntimeException("Pau parcelable");
+
         setContentView(R.layout.activity_fulscreen_content);
 
         mContentView = findViewById(R.id.fl_fullscreen);
         mVisible = true;
 
         final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fl_fullscreen, new QuestionFragment());
+        final Bundle questionBundle = new Bundle();
+        final QuestionFragment fragment = new QuestionFragment(questionBundle);
+        questionBundle.putParcelable(QuestionFragment.PARAMETER_QUESTION, question);
+        fragmentTransaction.replace(R.id.fl_fullscreen, fragment);
         fragmentTransaction.commit();
 
         // Set up the user interaction to manually show or hide the system UI.

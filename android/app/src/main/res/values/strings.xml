@@ -4,14 +4,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
-    <string-array name="test_array">
-        <item>Um texto que é para ser enorme, pois eu quero que ele fique escondido para que eu faça um teste identificando se este texto vai ser mostrado após o clique na linha. A ideia é que ele fique escondido na linha e depois mostrem o conteúdo.
-        </item>
-        <item>Item com menos texto.</item>
-        <item>Item com mais ou menos texto. Eu acho que aqui não vai mostra o texto também, mas não queria que ficasse tão grande quanto o outro texto.</item>
-    </string-array>
-
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="sincronizar">Sincronizar</string>

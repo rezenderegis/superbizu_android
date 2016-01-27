@@ -36,7 +36,7 @@ import java.util.List;
             setContentView(R.layout.lista);
             mLista = (ListView) findViewById(R.id.lista);
             registerForContextMenu(mLista);
-            SQLiteQuestionRepository repositoryOpenHelper =
+            final SQLiteQuestionRepository repositoryOpenHelper =
                 new SQLiteQuestionRepository(RepositoryOpenHelper.getInstance(getApplicationContext()));
             final AsyncTask asyncTask = repositoryOpenHelper.retrieveAllQuestion(new RetrieveListener<List<Question>>() {
             @Override
@@ -54,7 +54,7 @@ import java.util.List;
                             public void onRetrieve(List<Item> entity, Throwable error) {
                                 if (error == null && entity != null) {
                                     final Intent questionFullScreen =
-                                            new Intent(ShowAllQuestions.this, FullscreenActivity.class);
+                                            new Intent(ShowAllQuestions.this, SwipeQuestionResolutionActivity.class);
                                     questionSelected.setItems(entity);
                                     questionFullScreen.putExtra(FullscreenActivity.PARAMETER_QUESTION, questionSelected);
                                     startActivity(questionFullScreen);

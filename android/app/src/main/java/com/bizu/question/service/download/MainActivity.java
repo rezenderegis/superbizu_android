@@ -48,9 +48,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pagina_inicial);
-
-
-
         questoes = (ImageButton) findViewById(R.id.questoes);
         telaQuestoes = (ImageButton) findViewById(R.id.tela_questoes);
 

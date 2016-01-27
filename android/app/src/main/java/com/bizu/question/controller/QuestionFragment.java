@@ -1,9 +1,10 @@
 package com.bizu.question.controller;
 
-import android.app.Fragment;
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,9 +20,14 @@ import com.bizu.question.option.controller.OnQuestionOptionClickedListener;
  */
 public class QuestionFragment extends Fragment {
 
-    public static final String PARAMETER_QUESTION = "com.bizu.QuestionFragment.QUESTION";
+    private static final String PARAMETER_QUESTION = "com.bizu.QuestionFragment.QUESTION";
 
-    public QuestionFragment (final Bundle bundle) {
+    public QuestionFragment() {}
+
+    @SuppressLint("ValidFragment")
+    public QuestionFragment (final Question question) {
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable(PARAMETER_QUESTION, question);
         setArguments(bundle);
     }
 

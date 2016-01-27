@@ -110,7 +110,7 @@ class AsyncItemSave extends AsyncTask<List<Item>, Integer, AsyncResult<List<Item
 
                 if (verifyItemExist(item.getIdItem()) == false) {
                     mOpenHelper.getWritableDatabase()
-                            .insert(RepositoryOpenHelper.ItemContract.TABLE_NAME, null, contentValues);
+                            .insertOrThrow(RepositoryOpenHelper.ItemContract.TABLE_NAME, null, contentValues);
                     qtdInserted++;
                 } else {
                     String[] itemToUpdate = new String[]{item.getIdItem().toString()};

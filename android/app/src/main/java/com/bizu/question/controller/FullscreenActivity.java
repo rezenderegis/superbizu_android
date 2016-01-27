@@ -56,10 +56,10 @@ public class FullscreenActivity extends AppCompatActivity {
 
         final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         final Bundle questionBundle = new Bundle();
-        final QuestionFragment fragment = new QuestionFragment(questionBundle);
-        questionBundle.putParcelable(QuestionFragment.PARAMETER_QUESTION, question);
-        fragmentTransaction.replace(R.id.fl_fullscreen, fragment);
-        fragmentTransaction.commit();
+//        final QuestionFragment fragment = new QuestionFragment(questionBundle);
+//        questionBundle.putParcelable(QuestionFragment.PARAMETER_QUESTION, question);
+//        fragmentTransaction.replace(R.id.fl_fullscreen, fragment);
+//        fragmentTransaction.commit();
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {

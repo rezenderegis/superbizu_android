@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/line_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="72dp"
+    android:paddingRight="16dp" android:paddingLeft="16dp" android:clickable="true"
+    android:background="?attr/selectableItemBackground"
+    android:animateLayoutChanges="true" >
+    <TextView android:id="@+id/tv_line_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="40sp"
+        android:text="Apenas para visualzação" />
+    <ImageButton android:id="@+id/ib_expand_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="2dp"
+        android:foregroundGravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_line_text"
+        android:duplicateParentState="true"
+        android:clickable="true"
+        android:visibility="gone" />
+</RelativeLayout>

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +26,8 @@ import java.util.List;
 /**
  * Created by fabricio on 1/10/16.
  */
-    public class ShowAllQuestions extends Activity {
+    public class ShowAllQuestions extends Activity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
         public final static String TAG = ShowAllQuestions.class.getSimpleName();
 
@@ -70,5 +73,10 @@ import java.util.List;
             registerForContextMenu(mLista);
             }
         });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        return false;
     }
 }

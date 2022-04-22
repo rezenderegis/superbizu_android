@@ -9,10 +9,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.CompactMenu">
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".question.service.download.MainActivity"
-            android:label="@string/app_name">
+            android:name=".question.service.download.MainActivityNova"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
